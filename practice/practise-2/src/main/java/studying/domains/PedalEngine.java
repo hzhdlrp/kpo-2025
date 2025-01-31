@@ -8,7 +8,6 @@ import studying.interfaces.IEngine;
 @Getter
 public class PedalEngine implements IEngine {
     private final int size;
-
     @Override
     public boolean isCompatible(Customer customer) {
         return customer.getLegPower() > 5;
