@@ -11,6 +11,9 @@ import hse.kpo.services.HseCarService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ *
+ */
 @SpringBootApplication
 public class KpoApplication {
 
@@ -27,10 +30,10 @@ public class KpoApplication {
 
 		var handCarFactory = new HandCarFactory();
 
-		customerStorage.addCustomer(new Customer("Ivan1",6,4));
-		customerStorage.addCustomer(new Customer("Maksim",4,6));
-		customerStorage.addCustomer(new Customer("Petya",6,6));
-		customerStorage.addCustomer(new Customer("Nikita",4,4));
+		customerStorage.addCustomer(new Customer("Ivan1",6,4, 100));
+		customerStorage.addCustomer(new Customer("Maksim",4,6, 150));
+		customerStorage.addCustomer(new Customer("Petya",6,6, 400));
+		customerStorage.addCustomer(new Customer("Nikita",4,4, 3));
 
 		carService.addCar(pedalCarFactory, new PedalEngineParams(6));
 		carService.addCar(pedalCarFactory, new PedalEngineParams(6));

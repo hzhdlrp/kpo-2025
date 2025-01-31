@@ -1,19 +1,16 @@
 package hse.kpo.domains;
 
-import hse.kpo.interfaces.IEngine;
-import lombok.Getter;
 import lombok.ToString;
+import hse.kpo.interfaces.IEngine;
+import hse.kpo.domains.Customer;
 import org.springframework.stereotype.Service;
 
 /**
  *
  */
 @ToString
-@Getter
 
-public class PedalEngine implements IEngine {
-    private final int size;
-
+public class LevitateEngine implements IEngine {
     /**
      *
      * @param customer - покупатель, с которым мы сравниваем двигатель
@@ -21,14 +18,6 @@ public class PedalEngine implements IEngine {
      */
     @Override
     public boolean isCompatible(Customer customer) {
-        return customer.getLegPower() > 5;
-    }
-
-    /**
-     *
-     * @param size
-     */
-    public PedalEngine(int size) {
-        this.size = size;
+        return customer.getIQ() > 300;
     }
 }
