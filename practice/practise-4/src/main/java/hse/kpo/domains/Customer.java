@@ -3,6 +3,8 @@ package hse.kpo.domains;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 /**
@@ -10,7 +12,8 @@ import org.springframework.stereotype.Service;
  */
 @Getter
 @ToString
-
+//@Component
+//@Scope(scopeName = "prototype")
 public class Customer {
     private final String name;
 

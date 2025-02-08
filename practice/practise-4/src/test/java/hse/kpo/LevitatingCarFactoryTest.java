@@ -21,22 +21,20 @@ class LevitatingCarFactoryTest {
     @Autowired
     LavitatingCarFactory levitatingCarFactory;
 
-    @Autowired
-    Customer customer;
 
     @Test
     @DisplayName("тест создания левитирующего автомобиля")
     void levitatingCarFactoryTest() {
         var car = levitatingCarFactory.createCar(EmptyEngineParams.DEFAULT, 15);
         Assertions.assertNotNull(car);
-        Assertions.assertEquals(car.getVin(), 15);
+        Assertions.assertEquals(car.getVIN(), 15);
     }
 
     @Test
     @DisplayName("тест подохимости покупателя двигателю")
     void levitatingCarFactoryCompatibleTest() {
         var car = levitatingCarFactory.createCar(EmptyEngineParams.DEFAULT, 15);
-        customer = new Customer("Biba", 1, 4, 999);
+        var customer = new Customer("Biba", 1, 4, 999);
 
         Assertions.assertEquals(true, car.isCompatible(customer));
     }

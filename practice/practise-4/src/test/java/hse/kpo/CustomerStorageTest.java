@@ -13,6 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import static java.util.stream.IntStream.range;
 
@@ -32,6 +33,7 @@ class CustomerStorageTest {
     LavitatingCarFactory levitateCarFactory;
 
     @Test
+    @DirtiesContext
     @DisplayName("тест добавления одного клиента")
     void customerStorageAddOneCustomerTest() {
         customerStorage.addCustomer(new Customer("Pipa", 11, 12, 13));
@@ -41,6 +43,7 @@ class CustomerStorageTest {
     }
 
     @Test
+    @DirtiesContext
     @DisplayName("тест добавления 100 клиентов")
     void customerStorageAddHundredCustomersTest() {
         range(0, 100).forEach(i -> customerStorage.addCustomer(new Customer("Pupa", 11, 12, i)));

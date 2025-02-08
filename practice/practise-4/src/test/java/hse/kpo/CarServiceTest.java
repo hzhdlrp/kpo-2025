@@ -14,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 @SpringBootTest
 class CarServiceTest {
@@ -31,32 +32,34 @@ class CarServiceTest {
     LavitatingCarFactory levitateCarFactory;
 
     @Test
+    @DirtiesContext
     @DisplayName("тест добавления педального автомобиля и выдачи клиенту")
-    void carServicePedalTest() {
+    void carServicePedalCreateTest() {
         carService.addCar(pedalCarFactory, new PedalEngineParams(100));
         var customer = new Customer("Boba", 6, 3, 15);
         var car = carService.takeCar(customer);
         Assertions.assertNotNull(car);
-        Assertions.assertEquals(1, car.getVin());
+        Assertions.assertEquals(1, car.getVIN());
     }
 
     @Test
-    @DisplayName("тест добавления ручного автомобиля и выдачи клиенту, должен упасть")
-    void carServicePedalTest() {
+    @DirtiesContext
+    @DisplayName("тест добавления ручного автомобиля и выдачи клиенту, тест на ошибкуы")
+    void carServiceHandCreateTest() {
         carService.addCar(handCarFactory, EmptyEngineParams.DEFAULT);
         var customer = new Customer("Beba", 6, 0, 15);
         var car = carService.takeCar(customer);
-        Assertions.assertNotNull(car);
-        Assertions.assertEquals(1, car.getVin());
+        Assertions.assertEquals(car, null);
     }
 
     @Test
+    @DirtiesContext
     @DisplayName("тест добавления левитирущего автомобиля и выдачи клиенту")
-    void carServicePedalTest() {
+    void carServiceHandLevitTest() {
         carService.addCar(levitateCarFactory, EmptyEngineParams.DEFAULT);
         var customer = new Customer("Biba", 6, 0, 888);
         var car = carService.takeCar(customer);
         Assertions.assertNotNull(car);
-        Assertions.assertEquals(1, car.getVin());
+        Assertions.assertEquals(1, car.getVIN());
     }
 }

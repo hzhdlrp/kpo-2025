@@ -26,6 +26,6 @@ class HandCarFactoryTest {
     void handCarFactoryTest() {
         var handCar = handCarFactory.createCar(EmptyEngineParams.DEFAULT, 15);
         Assertions.assertNotNull(handCar);
-        Assertions.assertEquals(handCar.getVin(), 15);
+        Assertions.assertEquals(handCar.getVIN(), 15);
     }
 }

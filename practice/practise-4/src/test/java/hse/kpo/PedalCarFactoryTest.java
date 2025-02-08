@@ -21,28 +21,22 @@ class PedalCarFactoryTest {
     @Autowired
     PedalCarFactory pedalCarFactory;
 
-    @Autowired
-    PedalEngineParams carParams;
-
-    @Autowired
-    Customer customer;
-
     @Test
     @DisplayName("тест создания педального автомобиля")
     void pedalCarFactoryTest() {
-        carParams = new PedalEngineParams(12);
+        var carParams = new PedalEngineParams(12);
         var car = pedalCarFactory.createCar(carParams, 15);
         Assertions.assertNotNull(car);
-        Assertions.assertEquals(car.getVin(), 15);
+        Assertions.assertEquals(car.getVIN(), 15);
     }
 
     @Test
-    @DisplayName("тест пододимости покупателя двигателю, тест должен упасть")
+    @DisplayName("тест пододимости покупателя двигателю, тест на ошибку")
     void pedalCarFactoryCompatibleTest() {
-        carParams = new PedalEngineParams(12);
+        var carParams = new PedalEngineParams(12);
         var car = pedalCarFactory.createCar(carParams, 15);
-        customer = new Customer("Buba", 1, 4, 108);
+        var customer = new Customer("Buba", 1, 4, 108);
 
-        Assertions.assertEquals(true, car.isCompatible(customer));
+        Assertions.assertEquals(false, car.isCompatible(customer));
     }
 }
