@@ -14,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -39,6 +40,7 @@ class HseCarServiceTest {
 
     @Test
     @DisplayName("тест корректности продаж")
+    @DirtiesContext
     void hseCarServiceBigCoolTest() {
         carService.addCar(pedalCarFactory, new PedalEngineParams(1));
         carService.addCar(levitateCarFactory, EmptyEngineParams.DEFAULT);

@@ -13,6 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 @SpringBootTest
 class KpoApplicationTests {
@@ -37,6 +38,7 @@ class KpoApplicationTests {
 
 	@Test
 	@DisplayName("Тест загрузки контекста")
+	@DirtiesContext
 	void hseCarServiceTest() {
 		customerStorage.addCustomer(new Customer("First", 6, 4, 108));
 		customerStorage.addCustomer(new Customer("Second", 4, 6, 96));

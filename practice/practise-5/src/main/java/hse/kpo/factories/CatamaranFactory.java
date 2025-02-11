@@ -9,6 +9,12 @@ import hse.kpo.params.EmptyEngineParams;
 
 public class CatamaranFactory implements ICatamaranFactory<EmptyEngineParams> {
 
+    /**
+     *
+     * @param speed
+     * @param params
+     * @return
+     */
     @Override
     public Catamaran createCatamaran(int speed, EmptyEngineParams params) {
         HandEngine engine = new HandEngine();
