@@ -14,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 @SpringBootTest
 class LevitatingCarFactoryTest {
@@ -24,6 +25,7 @@ class LevitatingCarFactoryTest {
 
     @Test
     @DisplayName("тест создания левитирующего автомобиля")
+    @DirtiesContext
     void levitatingCarFactoryTest() {
         var car = levitatingCarFactory.createCar(EmptyEngineParams.DEFAULT, 15);
         Assertions.assertNotNull(car);
@@ -32,6 +34,7 @@ class LevitatingCarFactoryTest {
 
     @Test
     @DisplayName("тест подохимости покупателя двигателю")
+    @DirtiesContext
     void levitatingCarFactoryCompatibleTest() {
         var car = levitatingCarFactory.createCar(EmptyEngineParams.DEFAULT, 15);
         var customer = new Customer("Biba", 1, 4, 999);
