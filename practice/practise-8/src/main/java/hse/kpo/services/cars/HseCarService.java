@@ -1,6 +1,6 @@
-package hse.kpo.services;
+package hse.kpo.services.cars;
 
-import hse.kpo.domains.Customer;
+import hse.kpo.domains.customers.Customer;
 import hse.kpo.enums.ProductionTypes;
 import hse.kpo.observers.Sales;
 import hse.kpo.observers.SalesObserver;

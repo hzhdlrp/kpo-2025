@@ -43,6 +43,7 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
 	implementation("org.springframework.boot:spring-boot-starter-aop")
+	implementation("com.fasterxml.jackson.core:jackson-databind:2.18.2")
 }
 
 tasks.withType<Test> {

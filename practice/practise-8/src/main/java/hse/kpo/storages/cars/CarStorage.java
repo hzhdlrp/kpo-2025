@@ -1,7 +1,8 @@
-package hse.kpo.storages;
+package hse.kpo.storages.cars;
 
-import hse.kpo.domains.Car;
-import hse.kpo.domains.Customer;
+import hse.kpo.domains.cars.Car;
+import hse.kpo.domains.customers.Customer;
+import hse.kpo.interfaces.Transport;
 import hse.kpo.interfaces.cars.CarFactory;
 import hse.kpo.interfaces.cars.CarProvider;
 import java.util.ArrayList;
@@ -47,5 +48,9 @@ public class CarStorage implements CarProvider {
 
     public boolean addExistingCar(Car car) {
         return cars.add(car);
+    }
+
+    public List<Car> getCars() {
+        return cars;
     }
 }

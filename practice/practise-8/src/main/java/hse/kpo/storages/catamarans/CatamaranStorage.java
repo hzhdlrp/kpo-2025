@@ -1,7 +1,8 @@
-package hse.kpo.storages;
+package hse.kpo.storages.catamarans;
 
-import hse.kpo.domains.Catamaran;
-import hse.kpo.domains.Customer;
+import hse.kpo.domains.cars.Car;
+import hse.kpo.domains.catamarans.Catamaran;
+import hse.kpo.domains.customers.Customer;
 import hse.kpo.interfaces.catamarans.CatamaranFactory;
 import hse.kpo.interfaces.catamarans.CatamaranProvider;
 import java.util.ArrayList;
@@ -45,5 +46,9 @@ public class CatamaranStorage implements CatamaranProvider {
         catamarans.add(catamaran);
 
         return catamaran;
+    }
+
+    public List<Catamaran> getCatamatans() {
+        return catamarans;
     }
 }

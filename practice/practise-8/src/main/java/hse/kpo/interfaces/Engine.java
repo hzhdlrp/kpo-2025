@@ -1,7 +1,7 @@
 package hse.kpo.interfaces;
 
 
-import hse.kpo.domains.Customer;
+import hse.kpo.domains.customers.Customer;
 import hse.kpo.enums.ProductionTypes;
 
 public interface Engine {

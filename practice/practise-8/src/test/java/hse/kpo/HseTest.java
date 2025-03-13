@@ -1,20 +1,26 @@
 package hse.kpo;
 
-import hse.kpo.domains.*;
+import hse.kpo.domains.cars.Car;
+import hse.kpo.domains.customers.Customer;
 import hse.kpo.enums.ProductionTypes;
+import hse.kpo.enums.TransportFormat;
 import hse.kpo.facade.Hse;
 import hse.kpo.factories.cars.HandCarFactory;
 import hse.kpo.factories.cars.PedalCarFactory;
 import hse.kpo.observers.SalesObserver;
-import hse.kpo.storages.CarStorage;
-import hse.kpo.storages.CustomerStorage;
+import hse.kpo.storages.cars.CarStorage;
+import hse.kpo.storages.customers.CustomerStorage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import hse.kpo.enums.ReportFormat;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -121,10 +127,44 @@ class HseTest {
 
         // Assert
         assertAll(() -> assertTrue(report.contains("TestClient"),
-                "В отчете должно быть имя клиента"),
+                        "В отчете должно быть имя клиента"),
                 () -> assertTrue(report.contains(ProductionTypes.CAR.toString()),
                         "В отчете должен быть указан тип продукции 'CAR'"),
                 () -> assertTrue(report.matches("(?s).*VIN-\\d+.*"),
                         "Отчет должен содержать VIN автомобиля в формате 'VIN-число'"));
+    }
+
+    @Test
+    @DisplayName("Exporting Report test")
+    void exportReportTest() throws IOException {
+        // Экспорт в консоль в формате Markdown
+        hse.exportReport(ReportFormat.MARKDOWN, new PrintWriter(System.out));
+        // Экспорт в файл в формате MARKDOWN
+        try (FileWriter fileWriter = new FileWriter("report.MD")) {
+            hse.exportReport(ReportFormat.MARKDOWN, fileWriter);
+        }
+
+        // Экспорт в файл в формате JSON
+        try (FileWriter fileWriter = new FileWriter("report.json")) {
+            hse.exportReport(ReportFormat.JSON, fileWriter);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    @DisplayName("Exporting Transport test")
+    void exportTransportTest() throws IOException {
+        hse.exportTransport(TransportFormat.CSV, new PrintWriter(System.out));
+        try (FileWriter fileWriter = new FileWriter("report.CSV")) {
+            hse.exportTransport(TransportFormat.CSV, fileWriter);
+        }
+
+        // Экспорт в файл в формате JSON
+        try (FileWriter fileWriter = new FileWriter("report.XML")) {
+            hse.exportTransport(TransportFormat.XML, fileWriter);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

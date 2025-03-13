@@ -25,4 +25,20 @@ public class Customer {
 
     @Setter
     private Catamaran catamaran;
+
+    public String getName() {
+        return name;
+    }
+
+    public int getHandPower() {
+        return handPower;
+    }
+
+    public int getLegPower() {
+        return legPower;
+    }
+
+    public int getIq() {
+        return iq;
+    }
 }
