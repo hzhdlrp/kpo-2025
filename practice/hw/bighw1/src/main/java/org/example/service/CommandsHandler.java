@@ -1,0 +1,61 @@
+package org.example.service;
+
+import org.example.facades.UserFacade;
+
+import java.util.Scanner;
+
+public class CommandsHandler {
+    public void handle(UserFacade facade) {
+        while (handleOneCommand(facade));
+    }
+
+    public boolean handleOneCommand(UserFacade facade) {
+        System.out.println("type command:");
+        String word = scanner.next();
+        if (word.equals("end")) {
+            return false;
+        }
+
+
+        if (word.equals("create")) {
+            word = scanner.next();
+            if (word.equals("account")) {
+                word = scanner.next();
+                facade.createAccount(word);
+            } else if (word.equals("category")) {
+                word = scanner.next();
+                String type = scanner.next();
+                facade.addCategory(word, type);
+            } else if (word.equals("operation")) {
+                String accountName = scanner.next();
+                String categoryName = scanner.next();
+                int amount = scanner.nextInt();
+                int id = facade.addOperation(accountName, categoryName, amount);
+
+            } else {
+                System.out.println("unknown \"create\" argument");
+                scanner.nextLine();
+            }
+        } else if (word.equals("delete")) {
+            word = scanner.next();
+            if (word.equals("category")) {
+                word = scanner.next();
+                facade.deleteCategory(word);
+            } else if (word.equals("account")) {
+                word = scanner.next();
+                facade.deleteAccount(word);
+            } else {
+                System.out.println("unknown \"delete\" argument");
+                scanner.nextLine();
+            }
+        } else {
+            System.out.println("unknown command");
+            scanner.nextLine();
+            System.out.println(word);
+        }
+
+        return true;
+    }
+
+    private Scanner scanner = new Scanner(System.in);
+}
