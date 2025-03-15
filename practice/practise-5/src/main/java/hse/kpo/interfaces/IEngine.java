@@ -2,11 +2,7 @@ package hse.kpo.interfaces;
 
 
 import hse.kpo.domains.Customer;
-import org.springframework.stereotype.Service;
-
-/**
- *
- */
+import hse.kpo.enums.ProductionTypes;
 
 public interface IEngine {
 
@@ -14,7 +10,8 @@ public interface IEngine {
      * Метод для проверки совместимости двигателя с покупателем.
      *
      * @param customer - покупатель, с которым мы сравниваем двигатель
+     * @param type - тип объекта
      * @return true, если двигатель подходит покупателю
      */
-    boolean isCompatible(Customer customer);
+    boolean isCompatible(Customer customer, ProductionTypes type);
 }
