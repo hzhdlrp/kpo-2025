@@ -38,6 +38,14 @@ public class BankAccountFacade {
         }
     }
 
+
+    public int getAccountIdByName(String name) {
+        if (accountsMap.containsKey(name)) {
+            return accountsMap.get(name).getAccountId();
+        }
+        return -1;
+    }
+
     public int changeAccountBalance(String name, int change) {
         if (accountsMap.containsKey(name)) {
             return accountsMap.get(name).changeBalance(change);

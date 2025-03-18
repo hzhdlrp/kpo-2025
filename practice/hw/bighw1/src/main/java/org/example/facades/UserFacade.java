@@ -1,16 +1,12 @@
 package org.example.facades;
 
-import org.example.accounts.BankAccount;
 import org.example.categories.Category;
 import org.example.enums.PaymentTypes;
 import org.example.fabrics.OperationsFabric;
-import org.example.facades.BankAccountFacade;
 import org.example.operations.Operation;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.TreeSet;
 
 @Component
@@ -18,7 +14,7 @@ public class UserFacade {
     private BankAccountFacade bankAccountFacade;
     private HashMap<Integer, String> bankAccountsNames;
     private OperationsFabric operationsFabric;
-    private HashMap<String, HashMap<String, List<Operation>>> operationsByCategories;
+    private HashMap<Integer, Operation> operations;
     private HashMap<String, Category> categoryByName;
 
     public void createAccount(String name) {
@@ -35,6 +31,10 @@ public class UserFacade {
         bankAccountFacade = new BankAccountFacade();
         this.operationsFabric = new OperationsFabric();
         catIdCounter = 0;
+        bankAccountsNames = new HashMap<>();
+        operations = new HashMap<>();
+        categoryByName = new HashMap<>();
+        usedCatIds = new TreeSet<>();
     }
 
     public void addCategory(String name, String type) {
@@ -48,7 +48,7 @@ public class UserFacade {
         } else if(type.equals("expense")) {
             pType = PaymentTypes.EXPENSE;
         } else {
-            System.out.println("unknown payment type, use \"income\" or \"outcome\"\n");
+            System.out.println("unknown payment type, use \"income\" or \"expense\"\n");
             return;
         }
         while(usedCatIds.contains(catIdCounter)) catIdCounter++;
@@ -70,17 +70,18 @@ public class UserFacade {
     }
 
     public void changeAccountName(String previous, String current) {
+        int id = bankAccountFacade.getAccountIdByName(previous);
         bankAccountFacade.changeAccountName(previous, current);
+        if (id != -1) {
+            bankAccountsNames.remove(id);
+            bankAccountsNames.put(id, current);
+        }
     }
 
     public void deleteOperationById(int id) {
-        operationsByCategories.values().forEach(map -> {
-            map.values().forEach(list -> {
-                list.forEach(operation -> {
-                    if (operation.getOperationId() == id) list.remove(operation);
-                });
-            });
-        });
+        Operation op = operations.get(id);
+        bankAccountFacade.changeAccountBalance(bankAccountsNames.get(op.getBankAccountId()), -op.getAmount());
+        operations.remove(id);
     }
 
     public int addOperation(String accountName, String categoryName, int amount) {
@@ -100,20 +101,10 @@ public class UserFacade {
             }
         }
         if (bankAccountFacade.changeAccountBalance(accountName, amount) != -1) {
-            if (!operationsByCategories.containsKey(accountName)) {
-                operationsByCategories.put(accountName, new HashMap<>());
-            }
-            if (!operationsByCategories.get(accountName).containsKey(categoryName)) {
-                operationsByCategories.get(accountName).put(categoryName, new ArrayList<>());
-            }
-            Operation operation = operationsFabric.createOperation(
-                    categoryByName.get(categoryName).getCategoryType(),
-                    bankAccountFacade.getAccountId(accountName),
-                    amount);
-
-            operationsByCategories.get(accountName).get(categoryName).add(operation);
-            return operation.getOperationId();
+            Operation op = operationsFabric.createOperation(categoryByName.get(categoryName), bankAccountFacade.getAccountId(accountName), amount);
+            operations.put(op.getOperationId(), op);
         }
+        return -1;
 
     }
 

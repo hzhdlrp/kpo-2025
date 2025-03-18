@@ -25,6 +25,8 @@ public class AccountsFabric {
     private TreeSet<Integer> usedIds;
 
     public AccountsFabric() {
+        usedIds = new TreeSet<>();
+        usedNames = new TreeSet<>();
         this.id_counter = 0;
     }
 }
