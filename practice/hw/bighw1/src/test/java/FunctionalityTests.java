@@ -10,16 +10,20 @@ import org.example.facades.UserFacade;
 import org.example.importing.Importer;
 import org.example.importing.impl.CsvImporter;
 import org.example.importing.impl.JsonImporter;
+import org.example.service.Main;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD;
 
-@SpringBootTest
+@SpringBootTest(classes = UserFacade.class)
+@DirtiesContext(classMode = BEFORE_EACH_TEST_METHOD)
 public class FunctionalityTests {
 
     @Autowired
@@ -50,13 +54,13 @@ public class FunctionalityTests {
 
     @Test
     public void testAddCategory() {
-        userFacade.addCategory("Food", "EXPENSE");
+        userFacade.addCategory("Food", "expense");
         assertNotNull(userFacade.getCategoryByName("Food"));
     }
 
     @Test
     public void testDeleteCategory() {
-        userFacade.addCategory("Food", "EXPENSE");
+        userFacade.addCategory("Food", "expense");
         userFacade.deleteCategory("Food");
         assertNull(userFacade.getCategoryByName("Food"));
     }
@@ -78,23 +82,23 @@ public class FunctionalityTests {
     @Test
     public void testAddOperation() {
         userFacade.createAccount("Savings Account");
-        userFacade.addCategory("Food", "EXPENSE");
-        int operationId = userFacade.addOperation("Savings Account", "Food", -100);
+        userFacade.addCategory("Food", "income");
+        int operationId = userFacade.addOperation("Savings Account", "Food", 100);
         assertNotEquals(-1, operationId);
     }
 
     @Test
     public void testDeleteOperationById() {
         userFacade.createAccount("Savings Account");
-        userFacade.addCategory("Food", "EXPENSE");
-        int operationId = userFacade.addOperation("Savings Account", "Food", -100);
+        userFacade.addCategory("Food", "income");
+        int operationId = userFacade.addOperation("Savings Account", "Food", 100);
         userFacade.deleteOperationById(operationId);
         assertNull(userFacade.getOperationById(operationId));
     }
 
     @Test
     public void testChangeCategoryName() {
-        userFacade.addCategory("Food", "EXPENSE");
+        userFacade.addCategory("Food", "expense");
         userFacade.changeCategoryName("Food", "Groceries");
         assertNotNull(userFacade.getCategoryByName("Groceries"));
     }
@@ -117,7 +121,7 @@ public class FunctionalityTests {
 
     @Test
     public void testExportAndImportCategoriesJson() {
-        userFacade.addCategory("Food", "EXPENSE");
+        userFacade.addCategory("Food", "expense");
         userFacade.exportCategories(jsonExporter);
         userFacade.importCategories(jsonImporter, "categories.json");
         assertNotNull(userFacade.getCategoryByName("Food"));
@@ -125,7 +129,7 @@ public class FunctionalityTests {
 
     @Test
     public void testExportAndImportCategoriesCsv() {
-        userFacade.addCategory("Food", "EXPENSE");
+        userFacade.addCategory("Food", "expense");
         userFacade.exportCategories(csvExporter);
         userFacade.importCategories(csvImporter, "categories.csv");
         assertNotNull(userFacade.getCategoryByName("Food"));
@@ -134,18 +138,20 @@ public class FunctionalityTests {
     @Test
     public void testExportAndImportOperationsJson() {
         userFacade.createAccount("Savings Account");
-        userFacade.addCategory("Food", "EXPENSE");
-        int operationId = userFacade.addOperation("Savings Account", "Food", -100);
+        userFacade.addCategory("Food", "expense");
+        userFacade.addOperation("Savings Account", "Food", -100);
         userFacade.exportOperations(jsonExporter);
-        userFacade.importOperations(jsonImporter, "operations.json");
-        assertNotNull(userFacade.getOperationById(operationId));
+        List<Integer> ids = userFacade.importOperations(jsonImporter, "operations.json");
+        ids.forEach(id -> {
+            assertNotNull(userFacade.getOperationById(id));
+        });
     }
 
     @Test
     public void testExportAndImportOperationsCsv() {
         userFacade.createAccount("Savings Account");
-        userFacade.addCategory("Food", "EXPENSE");
-        int operationId = userFacade.addOperation("Savings Account", "Food", -100);
+        userFacade.addCategory("Food", "income");
+        int operationId = userFacade.addOperation("Savings Account", "Food", 100);
         userFacade.exportOperations(csvExporter);
         userFacade.importOperations(csvImporter, "operations.csv");
         assertNotNull(userFacade.getOperationById(operationId));

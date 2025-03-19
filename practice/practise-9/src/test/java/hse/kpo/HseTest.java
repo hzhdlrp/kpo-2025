@@ -1,5 +1,6 @@
 package hse.kpo;
 
+import com.sun.tools.javac.Main;
 import hse.kpo.domains.*;
 import hse.kpo.domains.cars.Car;
 import hse.kpo.enums.ProductionTypes;
@@ -21,7 +22,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD;
 
-@SpringBootTest
+@SpringBootTest(classes = Main.class)
 @DirtiesContext(classMode = BEFORE_EACH_TEST_METHOD)
 class HseTest {
 

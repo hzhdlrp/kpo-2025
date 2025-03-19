@@ -2,11 +2,13 @@ package org.example.facades;
 
 import org.example.domen.accounts.BankAccount;
 import org.example.fabrics.AccountsFabric;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@Component
 public class BankAccountFacade {
     private AccountsFabric accountsFabric;
     private HashMap<String, BankAccount> accountsMap;

@@ -21,7 +21,13 @@ public class OperationsFabric {
     public Operation createOperation(String category, int bankAccountId, int amount) {
         while(usedIds.contains(id_counter)) id_counter++;
         usedIds.add(id_counter);
-        return new Operation(id_counter, category, bankAccountId, amount, ZonedDateTime.now());
+        return Operation.builder()
+                .operationId(id_counter)
+                .categoryName(category)
+                .bankAccountId(bankAccountId)
+                .amount(amount)
+                .date(ZonedDateTime.now())
+                .build();
     }
 
     private int id_counter;

@@ -18,14 +18,12 @@ public class CsvExporter implements Exporter {
     public void writeAccounts(List<BankAccount> accounts) {
         String filename = "accounts.csv";
 
-        try (FileWriter writer = new FileWriter(filename, true)) {
+        try (FileWriter writer = new FileWriter(filename)) {
             accounts.forEach(account -> {
                 try {
-                    writer.write(account.getAccountId());
-                    writer.write(",");
                     writer.write(account.getAccountName());
                     writer.write(",");
-                    writer.write(account.getBalance());
+                    writer.write(Integer.toString(account.getBalance()));
                     writer.write(System.lineSeparator());
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -40,18 +38,14 @@ public class CsvExporter implements Exporter {
     public void writeOperations(List<Operation> operations) {
         String filename = "operations.csv";
 
-        try (FileWriter writer = new FileWriter(filename, true)) {
+        try (FileWriter writer = new FileWriter(filename)) {
             operations.forEach(operation -> {
                 try {
-                    writer.write(operation.getOperationId());
-                    writer.write(",");
                     writer.write(operation.getCategoryName());
                     writer.write(",");
-                    writer.write(operation.getAmount());
+                    writer.write(Integer.toString(operation.getBankAccountId()));
                     writer.write(",");
-                    writer.write(operation.getBankAccountId());
-                    writer.write(",");
-                    writer.write(operation.getDate().toString());
+                    writer.write(Integer.toString(operation.getAmount()));
                     writer.write(System.lineSeparator());
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -66,11 +60,9 @@ public class CsvExporter implements Exporter {
     public void writeCategories(List<Category> categories) {
         String filename = "categories.csv";
 
-        try (FileWriter writer = new FileWriter(filename, true)) {
+        try (FileWriter writer = new FileWriter(filename)) {
             categories.forEach(category -> {
                 try {
-                    writer.write(category.getCategoryId());
-                    writer.write(",");
                     writer.write(category.getCategoryName());
                     writer.write(",");
                     writer.write(category.getCategoryType() == PaymentTypes.EXPENSE ? "expense" : "income");

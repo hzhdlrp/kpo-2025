@@ -9,7 +9,9 @@ import org.example.fabrics.CategoryFabric;
 import org.example.fabrics.OperationsFabric;
 import org.example.domen.operations.Operation;
 import org.example.importing.Importer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +41,7 @@ public class UserFacade {
 
     public UserFacade() {
         bankAccountFacade = new BankAccountFacade();
-        this.operationsFabric = OperationsFabric.getInstance();
+        operationsFabric = OperationsFabric.getInstance();
         bankAccountsNames = new HashMap<>();
         operations = new HashMap<>();
         categoryByName = new HashMap<>();
@@ -52,8 +54,7 @@ public class UserFacade {
             return;
         }
         Category category = categoryFabric.createCategory(name, type);
-        if (category != null)
-            categoryByName.put(name,categoryFabric.createCategory(name, type));
+        if (category != null) categoryByName.put(name,categoryFabric.createCategory(name, type));
     }
 
     public void deleteCategory(String name) {
@@ -98,6 +99,7 @@ public class UserFacade {
         if (bankAccountFacade.changeAccountBalance(accountName, amount) != -1) {
             Operation op = operationsFabric.createOperation(categoryName, bankAccountFacade.getAccountId(accountName), amount);
             operations.put(op.getOperationId(), op);
+            return op.getOperationId();
         }
         return -1;
 
@@ -147,12 +149,15 @@ public class UserFacade {
         exporter.writeOperations(operationsList);
     }
 
-    public void importOperations(Importer importer, String file) {
+    public List<Integer> importOperations(Importer importer, String file) {
+        List<Integer> ids = new ArrayList<>();
         List<Operation> operationsList = importer.readOperations(file);
         operationsList.forEach(operation -> {
+            ids.add(operation.getOperationId());
             operations.put(operation.getOperationId(), operation);
             bankAccountFacade.changeAccountBalance(bankAccountsNames.get(operation.getBankAccountId()), operation.getAmount());
         });
+        return ids;
     }
 
     public Operation getOperationById(int id) {
