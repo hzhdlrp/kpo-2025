@@ -94,4 +94,8 @@ public class BankAccountFacade {
             }
         });
     }
+
+    public BankAccount getAccountByName(String name) {
+        return accountsMap.get(name);
+    }
 }

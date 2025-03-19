@@ -1,10 +1,11 @@
 package org.example.fabrics;
 
 import org.example.domen.accounts.BankAccount;
+import org.springframework.stereotype.Component;
 
 import java.util.TreeSet;
 
-
+@Component
 public class AccountsFabric {
     private static AccountsFabric instance;
 

@@ -1,5 +1,6 @@
 package org.example.facades;
 
+import lombok.Getter;
 import org.example.domen.accounts.BankAccount;
 import org.example.domen.categories.Category;
 import org.example.enums.PaymentTypes;
@@ -15,8 +16,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TreeSet;
 
+
 @Component
 public class UserFacade {
+    @Getter
     private BankAccountFacade bankAccountFacade;
     private HashMap<Integer, String> bankAccountsNames;
     private OperationsFabric operationsFabric;
@@ -150,5 +153,13 @@ public class UserFacade {
             operations.put(operation.getOperationId(), operation);
             bankAccountFacade.changeAccountBalance(bankAccountsNames.get(operation.getBankAccountId()), operation.getAmount());
         });
+    }
+
+    public Operation getOperationById(int id) {
+        return operations.get(id);
+    }
+
+    public Category getCategoryByName(String name) {
+        return categoryByName.get(name);
     }
 }

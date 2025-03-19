@@ -2,10 +2,12 @@ package org.example.fabrics;
 
 import org.example.domen.categories.Category;
 import org.example.domen.operations.Operation;
+import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
 import java.util.TreeSet;
 
+@Component
 public class OperationsFabric {
     private static OperationsFabric instance;
 

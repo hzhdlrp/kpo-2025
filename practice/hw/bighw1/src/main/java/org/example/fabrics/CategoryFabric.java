@@ -2,9 +2,11 @@ package org.example.fabrics;
 
 import org.example.domen.categories.Category;
 import org.example.enums.PaymentTypes;
+import org.springframework.stereotype.Component;
 
 import java.util.TreeSet;
 
+@Component
 public class CategoryFabric {
     private static CategoryFabric instance;
 
