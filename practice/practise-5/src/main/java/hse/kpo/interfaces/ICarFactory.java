@@ -1,8 +1,19 @@
 package hse.kpo.interfaces;
 
 import hse.kpo.domains.Car;
-import lombok.experimental.UtilityClass;
+import org.springframework.stereotype.Service;
+
+/**
+ *
+ * @param <TParams>
+ */
 
 public interface ICarFactory<TParams> {
-    Car create(TParams carParams, int carNumber);
+    /**
+     *
+     * @param carParams
+     * @param carNumber
+     * @return
+     */
+    Car createCar(TParams carParams, int carNumber);
 }

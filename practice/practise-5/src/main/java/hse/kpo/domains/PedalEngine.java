@@ -1,27 +1,33 @@
 package hse.kpo.domains;
 
-import hse.kpo.enums.ProductionTypes;
 import hse.kpo.interfaces.IEngine;
 import lombok.Getter;
 import lombok.ToString;
+import org.springframework.stereotype.Service;
 
 /**
- * Класс, реализующий {@link IEngine} педального типа.
+ *
  */
 @ToString
 @Getter
+
 public class PedalEngine implements IEngine {
     private final int size;
 
+    /**
+     *
+     * @param customer - покупатель, с которым мы сравниваем двигатель
+     * @return
+     */
     @Override
-    public boolean isCompatible(Customer customer, ProductionTypes type) {
-        return switch (type) {
-            case ProductionTypes.CAR -> customer.getLegPower() > 5;
-            case ProductionTypes.CATAMARAN -> customer.getLegPower() > 2;
-            case null, default -> throw new RuntimeException("This type of production doesn't exist");
-        };
+    public boolean isCompatible(Customer customer) {
+        return customer.getLegPower() > 5;
     }
 
+    /**
+     *
+     * @param size
+     */
     public PedalEngine(int size) {
         this.size = size;
     }

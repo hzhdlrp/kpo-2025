@@ -1,16 +1,19 @@
 package hse.kpo.domains;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
- * Класс, описывающий покупателя.
+ *
  */
 @Getter
 @ToString
-@Builder
+//@Component
+//@Scope(scopeName = "prototype")
 public class Customer {
     private final String name;
 
@@ -18,15 +21,22 @@ public class Customer {
 
     private final int handPower;
 
-    private final int iq;
+    private final int IQ;
 
     @Setter
     private Car car;
 
-    public Customer(String name, int legPower, int handPower, int iq) {
+    /**
+     *
+     * @param name
+     * @param legPower
+     * @param handPower
+     * @param IQ
+     */
+    public Customer(String name, int legPower, int handPower, int IQ) {
         this.name = name;
         this.legPower = legPower;
         this.handPower = handPower;
-        this.iq = iq;
+        this.IQ = IQ;
     }
 }
