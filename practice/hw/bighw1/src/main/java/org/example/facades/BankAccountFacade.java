@@ -1,6 +1,6 @@
 package org.example.facades;
 
-import org.example.accounts.BankAccount;
+import org.example.domen.accounts.BankAccount;
 import org.example.fabrics.AccountsFabric;
 
 import java.util.ArrayList;
@@ -72,8 +72,26 @@ public class BankAccountFacade {
         }
     }
 
+    public List<BankAccount> getAccounts() {
+        List<BankAccount> accounts = new ArrayList<>();
+        accountsMap.values().forEach(account -> {
+            accounts.add(account);
+        });
+        return accounts;
+    }
+
     public BankAccountFacade() {
         accountsMap = new HashMap<>();
-        accountsFabric = new AccountsFabric();
+        accountsFabric = AccountsFabric.getInstance();
+    }
+
+    public void getAccounts(List<BankAccount> accountList) {
+        accountList.forEach(account -> {
+            if (!accountsMap.containsKey(account.getAccountName())) {
+                accountsMap.put(account.getAccountName(), account);
+            } else {
+                System.out.println("account with name " + account.getAccountName() + " already exists\n");
+            }
+        });
     }
 }

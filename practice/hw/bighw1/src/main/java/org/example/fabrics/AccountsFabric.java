@@ -1,11 +1,20 @@
 package org.example.fabrics;
 
-import org.example.accounts.BankAccount;
+import org.example.domen.accounts.BankAccount;
 
 import java.util.TreeSet;
 
 
 public class AccountsFabric {
+    private static AccountsFabric instance;
+
+    public static AccountsFabric getInstance() {
+        if (instance == null) {
+            instance = new AccountsFabric();
+        }
+        return instance;
+    }
+
     public BankAccount createAccount(String name) {
         if (usedNames.contains(name)) {
             throw new RuntimeException("this name is already used\n");
@@ -24,7 +33,7 @@ public class AccountsFabric {
     private TreeSet<String> usedNames;
     private TreeSet<Integer> usedIds;
 
-    public AccountsFabric() {
+    private AccountsFabric() {
         usedIds = new TreeSet<>();
         usedNames = new TreeSet<>();
         this.id_counter = 0;

@@ -1,9 +1,9 @@
-package org.example.operations;
+package org.example.domen.operations;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import org.example.categories.Category;
-import org.example.enums.PaymentTypes;
+import org.example.domen.categories.Category;
+
 import java.time.ZonedDateTime;
 
 import lombok.Getter;
@@ -14,7 +14,7 @@ import lombok.Getter;
 public class Operation {
 
     private int operationId;
-    private Category category;
+    private String categoryName;
     private int bankAccountId;
     private int amount;
     private ZonedDateTime date;

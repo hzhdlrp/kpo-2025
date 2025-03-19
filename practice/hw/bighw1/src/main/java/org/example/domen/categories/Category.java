@@ -1,4 +1,4 @@
-package org.example.categories;
+package org.example.domen.categories;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

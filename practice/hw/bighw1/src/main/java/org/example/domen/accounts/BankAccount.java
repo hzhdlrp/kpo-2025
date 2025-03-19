@@ -1,4 +1,4 @@
-package org.example.accounts;
+package org.example.domen.accounts;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,12 +1,18 @@
 package org.example.facades;
 
-import org.example.categories.Category;
+import org.example.domen.accounts.BankAccount;
+import org.example.domen.categories.Category;
 import org.example.enums.PaymentTypes;
+import org.example.exporting.Exporter;
+import org.example.fabrics.CategoryFabric;
 import org.example.fabrics.OperationsFabric;
-import org.example.operations.Operation;
+import org.example.domen.operations.Operation;
+import org.example.importing.Importer;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeSet;
 
 @Component
@@ -16,6 +22,7 @@ public class UserFacade {
     private OperationsFabric operationsFabric;
     private HashMap<Integer, Operation> operations;
     private HashMap<String, Category> categoryByName;
+    private CategoryFabric categoryFabric;
 
     public void createAccount(String name) {
         int id = bankAccountFacade.addNewAccount(name);
@@ -29,12 +36,11 @@ public class UserFacade {
 
     public UserFacade() {
         bankAccountFacade = new BankAccountFacade();
-        this.operationsFabric = new OperationsFabric();
-        catIdCounter = 0;
+        this.operationsFabric = OperationsFabric.getInstance();
         bankAccountsNames = new HashMap<>();
         operations = new HashMap<>();
         categoryByName = new HashMap<>();
-        usedCatIds = new TreeSet<>();
+        categoryFabric = CategoryFabric.getInstance();
     }
 
     public void addCategory(String name, String type) {
@@ -42,23 +48,9 @@ public class UserFacade {
             System.out.println("category already exists\n");
             return;
         }
-        PaymentTypes pType;
-        if (type.equals("income")) {
-            pType = PaymentTypes.INCOME;
-        } else if(type.equals("expense")) {
-            pType = PaymentTypes.EXPENSE;
-        } else {
-            System.out.println("unknown payment type, use \"income\" or \"expense\"\n");
-            return;
-        }
-        while(usedCatIds.contains(catIdCounter)) catIdCounter++;
-        usedCatIds.add(catIdCounter);
-
-        categoryByName.put(name, Category.builder()
-                .categoryId(catIdCounter)
-                .categoryType(pType)
-                .categoryName(name)
-                .build());
+        Category category = categoryFabric.createCategory(name, type);
+        if (category != null)
+            categoryByName.put(name,categoryFabric.createCategory(name, type));
     }
 
     public void deleteCategory(String name) {
@@ -101,14 +93,62 @@ public class UserFacade {
             }
         }
         if (bankAccountFacade.changeAccountBalance(accountName, amount) != -1) {
-            Operation op = operationsFabric.createOperation(categoryByName.get(categoryName), bankAccountFacade.getAccountId(accountName), amount);
+            Operation op = operationsFabric.createOperation(categoryName, bankAccountFacade.getAccountId(accountName), amount);
             operations.put(op.getOperationId(), op);
         }
         return -1;
 
     }
 
-    private int catIdCounter;
-    private TreeSet<Integer> usedCatIds;
+    public void changeCategoryName(String previous, String current) {
+        if (!categoryByName.containsKey(previous)) {
+            System.out.println("no such category\n");
+            return;
+        }
+        categoryByName.put(current, categoryByName.get(previous));
+        categoryByName.remove(previous);
+    }
 
+    public void exportAccounts(Exporter exporter) {
+        exporter.writeAccounts(bankAccountFacade.getAccounts());
+    }
+
+    public void importAccounts(Importer importer, String file) {
+        bankAccountFacade.getAccounts(importer.readAccounts(file));
+    }
+
+    public void exportCategories(Exporter exporter) {
+        List<Category> categories = new ArrayList<>();
+        categoryByName.values().forEach(category -> {
+            categories.add(category);
+        });
+        exporter.writeCategories(categories);
+    }
+
+    public void importCategories(Importer importer, String file) {
+        List<Category> categories = importer.readCategories(file);
+        categories.forEach(category -> {
+            if (!categoryByName.containsKey(category.getCategoryName())) {
+                categoryByName.put(category.getCategoryName(), category);
+            } else {
+                System.out.println("category " + category.getCategoryName() + " already exists\n");
+            }
+        });
+    }
+
+    public void exportOperations(Exporter exporter) {
+        List<Operation> operationsList = new ArrayList<>();
+        operations.values().forEach(operation -> {
+            operationsList.add(operation);
+        });
+        exporter.writeOperations(operationsList);
+    }
+
+    public void importOperations(Importer importer, String file) {
+        List<Operation> operationsList = importer.readOperations(file);
+        operationsList.forEach(operation -> {
+            operations.put(operation.getOperationId(), operation);
+            bankAccountFacade.changeAccountBalance(bankAccountsNames.get(operation.getBankAccountId()), operation.getAmount());
+        });
+    }
 }
