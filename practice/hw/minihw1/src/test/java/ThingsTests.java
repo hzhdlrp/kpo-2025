@@ -1,12 +1,12 @@
-import animals.Animal;
-import animals.predators.Tiger;
-import animals.predators.Wolf;
+import domain.animals.Animal;
+import domain.animals.predators.Tiger;
+import domain.animals.predators.Wolf;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import things.Computer;
-import things.Table;
-import things.Thing;
+import domain.things.Computer;
+import domain.things.Table;
+import domain.things.Thing;
 
 public class ThingsTests {
     @Test

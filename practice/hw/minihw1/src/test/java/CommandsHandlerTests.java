@@ -1,10 +1,10 @@
-import app.CommandsHandler;
+import application.app.CommandsHandler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
-import services.Zoo;
+import application.app.Zoo;
 
 import java.io.ByteArrayInputStream;
 

@@ -1,14 +1,14 @@
-import animals.herbos.Monkey;
-import animals.herbos.Rabbit;
-import animals.predators.Tiger;
-import animals.predators.Wolf;
+import domain.animals.herbos.Monkey;
+import domain.animals.herbos.Rabbit;
+import domain.animals.predators.Tiger;
+import domain.animals.predators.Wolf;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import services.AliveService;
-import services.ThingService;
-import things.Computer;
-import things.Table;
+import infrastructure.storage.AliveService;
+import infrastructure.storage.ThingService;
+import domain.things.Computer;
+import domain.things.Table;
 
 public class ServiceTests {
     @Autowired
