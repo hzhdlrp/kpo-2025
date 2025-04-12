@@ -22,12 +22,16 @@ public class Animal implements IAlive {
     private String favoriteFood;
     @Getter
     private String nickname; // кличка
+    @Getter
+    @Setter
+    private int enclosureId;
 
     public int getHealth() {
         return health;
     }
 
-    public Animal(int health, int food, String name, String nickname, String sex, String favoriteFood) {
+    public Animal(int health, int food, String name, String nickname,
+                  String sex, String favoriteFood, int enclosureId) {
         this.health = health;
         this.food = food;
         this.name = name;
@@ -36,6 +40,7 @@ public class Animal implements IAlive {
         this.status = "healthy";
         this.favoriteFood = favoriteFood;
         this.nickname = nickname;
+        this.enclosureId = enclosureId;
     }
 
     @Override
@@ -53,7 +58,13 @@ public class Animal implements IAlive {
         return false;
     }
 
-    public void feed() {
+    public int feed() {
+        this.food++;
+        return this.food;
+    }
 
+    public int heal() {
+        this.health++;
+        return this.health;
     }
 }

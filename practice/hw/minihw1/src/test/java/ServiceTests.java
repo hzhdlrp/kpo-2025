@@ -20,10 +20,10 @@ public class ServiceTests {
     @Test
     @DisplayName("Setting AliveService test")
     public void setAliveService() {
-        aliveService.addAnimal(new Monkey(13));
-        aliveService.addAnimal(new Rabbit(12));
-        aliveService.addAnimal(new Tiger(7));
-        aliveService.addAnimal(new Wolf(9));
+        aliveService.addAnimal(new Monkey(1, "mimi", "female", "banana"));
+        aliveService.addAnimal(new Rabbit(1, "krosh", "male", "grass"));
+        aliveService.addAnimal(new Tiger(1, "tig", "male", "meet"));
+        aliveService.addAnimal(new Wolf(1, "wolf", "male", "meet"));
 
         aliveService.printAnimalsNumber();
         aliveService.printAllFoodCount();

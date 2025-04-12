@@ -11,16 +11,16 @@ public class AnimalsTests {
     @Test
     @DisplayName("creating animals test")
     public void test() {
-        Animal animal = new Wolf(1);
+        Animal animal = new Wolf(1, "wolf", "male", "meet");
         Assertions.assertNotNull(animal);
 
-        animal = new Tiger(1);
+        animal = new Tiger(1, "tig", "male", "meet");
         Assertions.assertNotNull(animal);
 
-        animal = new Rabbit(1);
+        animal = new Rabbit(1, "krosh", "male", "grass");
         Assertions.assertNotNull(animal);
 
-        animal = new Monkey(1);
+        animal = new Monkey(1, "mimi", "female", "banana");
         Assertions.assertNotNull(animal);
     }
 }

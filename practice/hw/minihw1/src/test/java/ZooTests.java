@@ -19,10 +19,10 @@ public class ZooTests {
     public void zooAnimalsTest() {
         zoo.setClinic(new VetClinic(10));
 
-        zoo.addAnimal(new Monkey(13));
-        zoo.addAnimal(new Rabbit(12));
-        zoo.addAnimal(new Tiger(7));
-        zoo.addAnimal(new Wolf(9));
+        zoo.addAnimal(new Monkey(13, "bebebe", "female", "banana"));
+        zoo.addAnimal(new Rabbit(12, "hihi", "female", "grass"));
+        zoo.addAnimal(new Tiger(7, "bigboss", "male", "baranina"));
+        zoo.addAnimal(new Wolf(9, "zuzu", "female", "chicken"));
 
         zoo.printAllFoodCount();
         zoo.printAnimalsInfo();

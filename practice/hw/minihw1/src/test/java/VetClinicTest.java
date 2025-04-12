@@ -15,9 +15,9 @@ public class VetClinicTest {
     @DisplayName("VetClinic checking health test")
     public void vetClinicTest() {
         vetClinic.setCriteria(5);
-        Animal animal = new Monkey(15);
+        Animal animal = new Monkey(15, "mimi", "female", "banana");
         Assertions.assertEquals(true, vetClinic.check(animal));
-        animal = new Tiger(3);
+        animal = new  Tiger(3, "tig", "male", "meet");
         Assertions.assertEquals(false, vetClinic.check(animal));
     }
 }
