@@ -9,9 +9,9 @@
 Доступные команды:
 
 - add
-    - animal <type> <heath> (доступны типы monkey, rabbit, tiger, wolf)
-      - добавляет новое животное со здоровьем <heath>
-    - thing <type> (доступны типы computer, table)
+    - animal \<type\> \<health\> \<nickname\> \<sex\> \<favorite_food\> (доступны типы monkey, rabbit, tiger, wolf, \<sex\> может иметь значение "male" или "female")
+      - добавляет новое животное со здоровьем \<health\>, кличкой \<nickname\> и любимо  едой \<food\>
+    - thing \<type\> (доступны типы computer, table)
       - добавляет новую вешь, инв. номер генерируется автоматически
 - print 
   - animals 
