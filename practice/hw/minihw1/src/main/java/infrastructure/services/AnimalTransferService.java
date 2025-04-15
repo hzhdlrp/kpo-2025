@@ -7,10 +7,12 @@ import domain.cages.Enclosure;
 import domain.cages.EnclosureTypes;
 import infrastructure.events.AnimalMovedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class AnimalTransferService {
     private Map<Integer, Enclosure> enclosures = new HashMap<>();
     @Autowired

@@ -7,10 +7,12 @@ import domain.feeding.FoodTypes;
 import domain.interfaces.IAlive;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+@ToString
 public class Animal implements IAlive {
 
     private int health;
