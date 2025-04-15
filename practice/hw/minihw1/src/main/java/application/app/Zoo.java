@@ -1,8 +1,9 @@
 package application.app;
 
-import infrastructure.storage.AliveService;
-import infrastructure.storage.ThingService;
+import infrastructure.services.AliveService;
+import infrastructure.services.ThingService;
 import domain.animals.Animal;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import domain.things.Thing;
 import application.veterinary.VetClinic;
@@ -49,6 +50,8 @@ public class Zoo {
     }
 
     private VetClinic clinic;
-    private AliveService animalService = new AliveService();
-    private ThingService thingService = new ThingService();
+    @Autowired
+    private AliveService animalService;
+    @Autowired
+    private ThingService thingService;
 }

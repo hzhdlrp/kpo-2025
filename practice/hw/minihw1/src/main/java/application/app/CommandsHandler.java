@@ -35,12 +35,12 @@ public class CommandsHandler {
                 int health = scanner.nextInt();
                 String nickname = scanner.next();
                 String sex = scanner.next();
-                if (!sex.equals("male") && !sex.equals("female")) {
-                    System.out.println("unknown sex type");
-                    return true;
-                }
                 String favouriteFood = scanner.next();
-                createAnimal(zoo, word, health, nickname, sex, favouriteFood);
+                try {
+                    createAnimal(zoo, word, health, nickname, sex, favouriteFood);
+                } catch (RuntimeException e) {
+                    System.out.println(e.getCause());
+                }
             } else if (word.equals("thing")) {
                 word = scanner.next();
 

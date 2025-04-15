@@ -10,7 +10,7 @@
 
 - add
     - animal \<type\> \<health\> \<nickname\> \<sex\> \<favorite_food\> (доступны типы monkey, rabbit, tiger, wolf, \<sex\> может иметь значение "male" или "female")
-      - добавляет новое животное со здоровьем \<health\>, кличкой \<nickname\> и любимо  едой \<food\>
+      - добавляет новое животное со здоровьем \<health\>, кличкой \<nickname\> и любимоый едой \<food\>
     - thing \<type\> (доступны типы computer, table)
       - добавляет новую вешь, инв. номер генерируется автоматически
 - print 

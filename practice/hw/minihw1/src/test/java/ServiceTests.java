@@ -5,8 +5,8 @@ import domain.animals.predators.Wolf;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import infrastructure.storage.AliveService;
-import infrastructure.storage.ThingService;
+import infrastructure.services.AliveService;
+import infrastructure.services.ThingService;
 import domain.things.Computer;
 import domain.things.Table;
 

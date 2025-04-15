@@ -14,7 +14,7 @@ public class Herbo extends Animal {
 
     public Herbo(int health, int food, String name, String nickname, String sex,
                  String favoriteFood, int kindness) {
-        super(health, food, name, nickname, sex, favoriteFood, 0);
+        super(health, food, name, nickname, sex, favoriteFood);
         if (kindness < 0 || kindness > 10) {
             throw new RuntimeException("kindness can be only between 0 and 10\n");
         }

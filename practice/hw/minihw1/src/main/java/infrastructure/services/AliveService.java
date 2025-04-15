@@ -1,26 +1,46 @@
-package infrastructure.storage;
+package infrastructure.services;
 
 import domain.animals.Animal;
-import domain.interfaces.IAlive;
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class AliveService {
 
-    private List<IAlive> animals = new ArrayList<>();
-    private List<IAlive> contactAnimals = new ArrayList<>();
+    @Getter
+    private List<Animal> animals = new ArrayList<>();
+    private List<Animal> contactAnimals = new ArrayList<>();
+    private Set<String> nicknames = new HashSet<>();
 
     public void addAnimal(Animal animal) {
+        if (nicknames.contains(animal.getNickname())) {
+            System.out.println("error, animal with this nickname already exists");
+            return;
+        }
+        nicknames.add(animal.getNickname());
         animals.add(animal);
 
         if (animal.isContact()) {
             contactAnimals.add(animal);
         }
     }
+
+    public Animal getAnimalByNickname(String nickname) {
+        for (Animal animal : animals) {
+            if (animal.getNickname().equals(nickname)) {
+                return animal;
+            }
+        }
+        System.out.println("no animal with nickname " + nickname);
+        return null;
+    }
+
 
     public void printAnimalsInfo() {
         animals.forEach(animal -> {

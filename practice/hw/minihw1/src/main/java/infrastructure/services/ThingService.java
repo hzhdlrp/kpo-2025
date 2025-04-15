@@ -1,4 +1,4 @@
-package infrastructure.storage;
+package infrastructure.services;
 
 import domain.interfaces.IInventory;
 import org.springframework.stereotype.Component;
