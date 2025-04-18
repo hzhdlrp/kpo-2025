@@ -10,7 +10,15 @@ import domain.things.Computer;
 import domain.things.Table;
 import domain.things.Thing;
 import infrastructure.services.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +39,7 @@ class EnclosureRequest {
 
 
 @RestController
+@Tag(name = "Animals API", description = "Управление животными в зоопарке")
 @RequestMapping("/api/animals")
 public class AnimalsController {
     @Autowired
@@ -51,7 +60,9 @@ public class AnimalsController {
     }
 
     @PostMapping("/animal")
-    public ResponseEntity<String> createAnimal(@RequestBody AnimalRequest request) {
+    @Operation(summary = "Создать животное")
+    public ResponseEntity<String> createAnimal(@RequestBody @Parameter(description = "Данные животного")
+                                                   AnimalRequest request) {
         try {
             Animal createdAnimal = _createAnimal(request.type, request.health, request.nickname, request.sex, request.favoriteFood);
             return ResponseEntity.ok("Created! new animal:\n" + createdAnimal.toString());
@@ -62,7 +73,8 @@ public class AnimalsController {
     }
 
     @PostMapping("/thing")
-    public ResponseEntity<String> createThing(@RequestBody String type) {
+    @Operation(summary = "Создать вещь")
+    public ResponseEntity<String> createThing(@RequestBody @Parameter(description = "вид вещи") String type) {
         try {
             var createdThing = _createThing(type);
             return ResponseEntity.ok("Created! new thingID:" + String.valueOf(createdThing.getNumber()) + "\n");
@@ -73,19 +85,23 @@ public class AnimalsController {
     }
 
     @PostMapping("/feed/{nickname}")
-    public ResponseEntity<String> feedAnimal(@PathVariable String nickname) {
+    @Operation(summary = "покормить животное")
+    public ResponseEntity<String> feedAnimal(@PathVariable @Parameter(description = "Кличка животного") String nickname) {
         String str = feedingAndHealingOrganizationService.feedByNickname(nickname);
         return ResponseEntity.ok(str);
     }
 
     @PostMapping("/heal/{nickname}")
-    public ResponseEntity<String> healAnimal(@PathVariable String nickname) {
+    @Operation(summary = "лечить животное")
+    public ResponseEntity<String> healAnimal(@PathVariable @Parameter(description = "Кличка животного") String nickname) {
         String str = feedingAndHealingOrganizationService.healByNickname(nickname);
         return ResponseEntity.ok(str);
     }
 
     @PostMapping("/move/{nickname}")
-    public ResponseEntity<String> moveTo(@PathVariable String nickname, @RequestBody int enclosureId) {
+    @Operation(summary = "переместить в вольер")
+    public ResponseEntity<String> moveTo(@PathVariable @Parameter(description = "Кличка животного") String nickname,
+                                         @RequestBody @Parameter(description = "id вольера") int enclosureId) {
         try {
             var success = animalTransferService.changeEnclosure(nickname, enclosureId);
             if (success) {
@@ -101,7 +117,8 @@ public class AnimalsController {
     }
 
     @PostMapping("create/enclosure")
-    public ResponseEntity<String> createEnclosure(@RequestBody EnclosureRequest enclosureRequest) {
+    @Operation(summary = "создать вольер")
+    public ResponseEntity<String> createEnclosure(@RequestBody @Parameter(description = "данные о вольере") EnclosureRequest enclosureRequest) {
         var id = animalTransferService.addEnclosure(enclosureRequest.capacity, enclosureRequest.type);
         if (id.getCode() != -1) {
             return ResponseEntity.ok("created, enclosureID = " + id.getResult() + "\n");
@@ -110,22 +127,84 @@ public class AnimalsController {
         }
     }
 
-    @GetMapping("/statistics/count")
+    @Operation(
+            summary = "Получить общее количество животных",
+            description = "Возвращает общее число животных в зоопарке",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Успешный запрос",
+                            content = @Content(
+                                    schema = @Schema(implementation = Integer.class),
+                                    examples = @ExampleObject(value = "42")
+                            )
+                    )
+            }
+    )
+    @GetMapping("/count")
     public ResponseEntity<Integer> getAnimalsCount() {
         return ResponseEntity.ok(zooStatisticsService.getAnimalsNumber());
     }
 
-    @GetMapping("/statistics/herbivores")
+    @Operation(
+            summary = "Получить список травоядных",
+            description = "Возвращает список всех травоядных животных с их именами и кличками",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Успешный запрос",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = List.class),
+                                    examples = @ExampleObject(value = "[\"Олень Бэмби\", \"Зебра Марти\"]")
+                            )
+                    )
+            }
+    )
+    @GetMapping("/herbivores")
     public ResponseEntity<List<String>> getAllHerbivores() {
         return ResponseEntity.ok(zooStatisticsService.getHerbosNames());
     }
 
-    @GetMapping("/statistics/predators")
+    @Operation(
+            summary = "Получить список хищников",
+            description = "Возвращает список всех хищных животных с их именами и кличками",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Успешный запрос",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = List.class),
+                                    examples = @ExampleObject(value = "[\"Лев Симба\", \"Тигр Шерхан\"]")
+                            )
+                    )
+            }
+    )
+    @GetMapping("/predators")
     public ResponseEntity<List<String>> getAllPredators() {
         return ResponseEntity.ok(zooStatisticsService.getPredatorsNames());
     }
 
-    @GetMapping("/statistics/all")
+    @Operation(
+            summary = "Получить полную информацию о животных",
+            description = "Возвращает детальную информацию обо всех животных в зоопарке",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Успешный запрос",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = List.class),
+                                    examples = @ExampleObject(
+                                            value = "[\"Тигр Шерхан (Здоровье: 90, Любимая еда: мясо)\", " +
+                                                    "\"Олень Бэмби (Здоровье: 85, Любимая еда: трава)\"]"
+                                    )
+                            )
+                    )
+            }
+    )
+    @GetMapping("/all")
     public ResponseEntity<List<String>> getAllAnimalsInfo() {
         return ResponseEntity.ok(zooStatisticsService.getAllAnimals());
     }
