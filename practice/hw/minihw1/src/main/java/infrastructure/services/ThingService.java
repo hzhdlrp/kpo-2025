@@ -13,10 +13,11 @@ public class ThingService {
 
     private int number = 0;
 
-    public void addThing(Thing thing) {
+    public int addThing(Thing thing) {
         thing.setNumver(this.number);
         this.number++;
         things.add(thing);
+        return number;
     }
 
     public void printThingsInfo() {

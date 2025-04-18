@@ -20,13 +20,13 @@ public class AnimalTransferService {
 
     private AnimalMovedEvent animalMovedEvent = new AnimalMovedEvent();
 
-    public void addEnclosure(int capacity, String type) {
+    public ResultType<String> addEnclosure(int capacity, String type) {
         EnclosureTypes enclosureType;
         if (type.equals("herbo")) enclosureType = EnclosureTypes.HERBO;
         else if (type.equals("predator")) enclosureType = EnclosureTypes.PREDATOR;
         else {
             System.out.println("unknown enclosure type");
-            return;
+            return new ResultType<>(-1, "unknown enclosure type");
         }
 
         int id = 0;
@@ -36,6 +36,7 @@ public class AnimalTransferService {
                         .type(enclosureType)
                         .id(id)
                 .build());
+        return new ResultType<>(0,String.valueOf(id));
     }
 
     public boolean putAnimalByNicknameToEnclosureById(String nickname, int enclosureId) {

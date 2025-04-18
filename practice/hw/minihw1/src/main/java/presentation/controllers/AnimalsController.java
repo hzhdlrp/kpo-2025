@@ -14,12 +14,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 class AnimalRequest {
     public String type;
     public int health;
     public String nickname;
     public String sex;
     public String favoriteFood;
+}
+
+class EnclosureRequest {
+    public int capacity;
+    public String type;
 }
 
 
@@ -38,7 +45,7 @@ public class AnimalsController {
     private ThingService thingService;
     private Zoo zoo;
 
-    AnimalsController(Zoo zoo) {
+    public AnimalsController(Zoo zoo) {
         this.zoo = zoo;
     }
 
@@ -47,6 +54,17 @@ public class AnimalsController {
         try {
             Animal createdAnimal = _createAnimal(request.type, request.health, request.nickname, request.sex, request.favoriteFood);
             return ResponseEntity.ok("Created! new animal:\n" + createdAnimal.toString());
+        } catch (RuntimeException e) {
+            System.out.println(e.getCause());
+            return ResponseEntity.status(666).body(e.getCause().toString());
+        }
+    }
+
+    @PostMapping("/thing")
+    public ResponseEntity<String> createThing(@RequestBody String type) {
+        try {
+            var createdThing = _createThing(type);
+            return ResponseEntity.ok("Created! new thingID:" + String.valueOf(createdThing.getNumber()) + "\n");
         } catch (RuntimeException e) {
             System.out.println(e.getCause());
             return ResponseEntity.status(666).body(e.getCause().toString());
@@ -66,14 +84,49 @@ public class AnimalsController {
     }
 
     @PostMapping("/move/{nickname}")
-    public ResponseEntity<String> (@RequestBody AnimalRequest request) {
+    public ResponseEntity<String> moveTo(@PathVariable String nickname, @RequestBody int enclosureId) {
         try {
-            Animal createdAnimal = _createAnimal(request.type, request.health, request.nickname, request.sex, request.favoriteFood);
-            return ResponseEntity.ok("Created! new animal:\n" + createdAnimal.toString());
+            var success = animalTransferService.changeEnclosure(nickname, enclosureId);
+            if (success) {
+                return ResponseEntity.ok("enclosure successful changed\n");
+            }
+            else {
+                return ResponseEntity.status(666).body("error: no enclosure or empty");
+            }
         } catch (RuntimeException e) {
             System.out.println(e.getCause());
             return ResponseEntity.status(666).body(e.getCause().toString());
         }
+    }
+
+    @PostMapping("create/enclosure")
+    public ResponseEntity<String> createEnclosure(@RequestBody EnclosureRequest enclosureRequest) {
+        var id = animalTransferService.addEnclosure(enclosureRequest.capacity, enclosureRequest.type);
+        if (id.getCode() != -1) {
+            return ResponseEntity.ok("created, enclosureID = " + id.getResult() + "\n");
+        } else {
+            return ResponseEntity.status(666).body(id.getResult());
+        }
+    }
+
+    @GetMapping("/statistics/count")
+    public ResponseEntity<Integer> getAnimalsCount() {
+        return ResponseEntity.ok(zooStatisticsService.getAnimalsNumber());
+    }
+
+    @GetMapping("/statistics/herbivores")
+    public ResponseEntity<List<String>> getAllHerbivores() {
+        return ResponseEntity.ok(zooStatisticsService.getHerbosNames());
+    }
+
+    @GetMapping("/statistics/predators")
+    public ResponseEntity<List<String>> getAllPredators() {
+        return ResponseEntity.ok(zooStatisticsService.getPredatorsNames());
+    }
+
+    @GetMapping("/statistics/all")
+    public ResponseEntity<List<String>> getAllAnimalsInfo() {
+        return ResponseEntity.ok(zooStatisticsService.getAllAnimals());
     }
 
 
