@@ -11,14 +11,6 @@ import application.veterinary.VetClinic;
 @Component
 public class Zoo {
 
-    public void setClinic(VetClinic clinic) {
-        this.clinic = clinic;
-    }
-
-    public Zoo(int criteria) {
-        this.clinic = new VetClinic(criteria);
-    }
-
     public void addAnimal(Animal animal) {
         if (clinic.check(animal)) {
             animalService.addAnimal(animal);
@@ -50,8 +42,13 @@ public class Zoo {
     }
 
     private VetClinic clinic;
-    @Autowired
     private AliveService animalService;
-    @Autowired
     private ThingService thingService;
+
+    @Autowired
+    public Zoo(VetClinic clinic, AliveService animalService, ThingService thingService) {
+        this.clinic = clinic;
+        this.animalService = animalService;
+        this.thingService = thingService;
+    }
 }

@@ -3,11 +3,12 @@ package infrastructure.services;
 import domain.interfaces.IInventory;
 import org.springframework.stereotype.Component;
 import domain.things.Thing;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Service
 public class ThingService {
     private List<IInventory> things = new ArrayList<>();
 

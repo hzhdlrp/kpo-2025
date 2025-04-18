@@ -2,7 +2,10 @@ package infrastructure.services;
 
 import domain.animals.Animal;
 import lombok.Getter;
+import lombok.Setter;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Component
+@Service
 public class AliveService {
 
     @Getter

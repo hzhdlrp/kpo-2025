@@ -1,22 +1,35 @@
 package application.app;
 
 import infrastructure.events.FeedingTimeEvent;
-import presentation.controllers.AnimalsController;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 
+@SpringBootApplication
+@ComponentScan(basePackages = {
+        "application.app",
+        "application.veterinary",
+        "infrastructure.services"
+})
 public class Main {
 
-    private static Zoo zoo;
-    private static CommandsHandler commandsHandler = new CommandsHandler();
-    private static AnimalsController controller;
+    private static int DEFAULT_CRITERIA = 20;
 
     public static void main(String[] args) {
-        System.out.print("enter health criteria for zoo");
-        zoo = new Zoo(commandsHandler.readCriteria());
-//        commandsHandler.handle(zoo);
-        FeedingTimeEvent feedingTimeEvent = new FeedingTimeEvent();
-        feedingTimeEvent.start();
-
-        controller = new AnimalsController(zoo);
-
+        SpringApplication.run(Main.class, args);
     }
+
+//    @Bean
+//    public FeedingTimeEvent feedingTimeEvent() {
+//        FeedingTimeEvent event = new FeedingTimeEvent();
+//        event.start();
+//        return event;
+//    }
+//
+//    @Bean
+//    public CommandLineRunner startFeedingEvent(FeedingTimeEvent event) {
+//        return args -> event.start();
+//    }
 }

@@ -1,15 +1,17 @@
 package application.veterinary;
 
 import domain.animals.Animal;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 @Component
 public class VetClinic {
 
     private int criteria;
 
-    public VetClinic(int crit) {
-        this.criteria = crit;
+    public VetClinic(@Value("${zoo.health.criteria:20}") int criteria) {
+        this.criteria = criteria;
     }
 
     public void setCriteria(int crit) {

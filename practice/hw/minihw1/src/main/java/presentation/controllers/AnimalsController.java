@@ -43,8 +43,9 @@ public class AnimalsController {
     FeedingAndHealingOrganizationService feedingAndHealingOrganizationService;
     @Autowired
     private ThingService thingService;
-    private Zoo zoo;
+    private final Zoo zoo;
 
+    @Autowired
     public AnimalsController(Zoo zoo) {
         this.zoo = zoo;
     }
