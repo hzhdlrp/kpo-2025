@@ -1,8 +1,8 @@
-import domain.animals.Animal;
-import domain.animals.herbos.Monkey;
-import domain.animals.herbos.Rabbit;
-import domain.animals.predators.Tiger;
-import domain.animals.predators.Wolf;
+import org.example.domain.animals.Animal;
+import org.example.domain.animals.herbos.Monkey;
+import org.example.domain.animals.herbos.Rabbit;
+import org.example.domain.animals.predators.Tiger;
+import org.example.domain.animals.predators.Wolf;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

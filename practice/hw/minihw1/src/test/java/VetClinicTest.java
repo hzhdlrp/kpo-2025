@@ -1,11 +1,11 @@
-import domain.animals.Animal;
-import domain.animals.herbos.Monkey;
-import domain.animals.predators.Tiger;
+import org.example.domain.animals.Animal;
+import org.example.domain.animals.herbos.Monkey;
+import org.example.domain.animals.predators.Tiger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import application.veterinary.VetClinic;
+import org.example.application.veterinary.VetClinic;
 
 public class VetClinicTest {
     @Autowired

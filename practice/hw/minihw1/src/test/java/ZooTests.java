@@ -1,14 +1,14 @@
-import domain.animals.herbos.Monkey;
-import domain.animals.herbos.Rabbit;
-import domain.animals.predators.Tiger;
-import domain.animals.predators.Wolf;
+import org.example.domain.animals.herbos.Monkey;
+import org.example.domain.animals.herbos.Rabbit;
+import org.example.domain.animals.predators.Tiger;
+import org.example.domain.animals.predators.Wolf;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import application.app.Zoo;
-import domain.things.Computer;
-import domain.things.Table;
-import application.veterinary.VetClinic;
+import org.example.application.app.Zoo;
+import org.example.domain.things.Computer;
+import org.example.domain.things.Table;
+import org.example.application.veterinary.VetClinic;
 
 public class ZooTests {
     @Autowired
