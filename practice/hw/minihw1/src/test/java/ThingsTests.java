@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.example.domain.things.Computer;
 import org.example.domain.things.Table;
 import org.example.domain.things.Thing;
+import org.springframework.stereotype.Component;
 
 public class ThingsTests {
     @Test

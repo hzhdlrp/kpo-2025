@@ -2,22 +2,29 @@ import org.example.domain.animals.herbos.Monkey;
 import org.example.domain.animals.herbos.Rabbit;
 import org.example.domain.animals.predators.Tiger;
 import org.example.domain.animals.predators.Wolf;
+import org.example.infrastructure.services.AliveService;
+import org.example.infrastructure.services.ThingService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.example.application.app.Zoo;
+import org.example.application.zoo.Zoo;
 import org.example.domain.things.Computer;
 import org.example.domain.things.Table;
 import org.example.application.veterinary.VetClinic;
 
 public class ZooTests {
     @Autowired
-    Zoo zoo;
+    private VetClinic vetClinic;
+    @Autowired
+    private AliveService aliveService;
+    @Autowired
+    private ThingService thingService;
+    @Autowired
+    private Zoo zoo;
 
     @Test
     @DisplayName("Zoo Animals test")
     public void zooAnimalsTest() {
-        zoo.setClinic(new VetClinic(10));
 
         zoo.addAnimal(new Monkey(13, "bebebe", "female", "banana"));
         zoo.addAnimal(new Rabbit(12, "hihi", "female", "grass"));

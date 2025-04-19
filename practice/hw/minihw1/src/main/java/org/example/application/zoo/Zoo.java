@@ -1,4 +1,4 @@
-package org.example.application.app;
+package org.example.application.zoo;
 
 import org.example.infrastructure.services.AliveService;
 import org.example.infrastructure.services.ThingService;
@@ -11,12 +11,13 @@ import org.example.application.veterinary.VetClinic;
 @Component
 public class Zoo {
 
-    public boolean addAnimal(Animal animal) {
+    public int addAnimal(Animal animal) {
         if (clinic.check(animal)) {
-            animalService.addAnimal(animal);
-            return true;
+            if (animalService.addAnimal(animal))
+                return 0;
+            return -1;
         }
-        return false;
+        return -2;
     }
 
     public void addThing(Thing thing) {

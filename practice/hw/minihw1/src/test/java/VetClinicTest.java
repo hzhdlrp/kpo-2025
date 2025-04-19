@@ -6,7 +6,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.example.application.veterinary.VetClinic;
+import org.springframework.stereotype.Component;
 
+@Component
 public class VetClinicTest {
     @Autowired
     VetClinic vetClinic;

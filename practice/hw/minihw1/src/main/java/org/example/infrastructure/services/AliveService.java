@@ -18,10 +18,10 @@ public class AliveService {
     private List<Animal> contactAnimals = new ArrayList<>();
     private Set<String> nicknames = new HashSet<>();
 
-    public void addAnimal(Animal animal) {
+    public boolean addAnimal(Animal animal) {
         if (nicknames.contains(animal.getNickname())) {
             System.out.println("error, animal with this nickname already exists");
-            return;
+            return false;
         }
         nicknames.add(animal.getNickname());
         animals.add(animal);
@@ -29,6 +29,7 @@ public class AliveService {
         if (animal.isContact()) {
             contactAnimals.add(animal);
         }
+        return true;
     }
 
     public Animal getAnimalByNickname(String nickname) {

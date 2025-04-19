@@ -1,6 +1,6 @@
 package org.example.presentation.controllers;
 
-import org.example.application.app.Zoo;
+import org.example.application.zoo.Zoo;
 import org.example.domain.animals.Animal;
 import org.example.domain.animals.herbos.Monkey;
 import org.example.domain.animals.herbos.Rabbit;
@@ -65,10 +65,11 @@ public class AnimalsController {
                                                    AnimalRequest request) {
         try {
             Animal createdAnimal = _createAnimal(request.type, request.health, request.nickname, request.sex, request.favoriteFood);
+
             return ResponseEntity.ok("Created! new animal:\n" + createdAnimal.toString());
         } catch (RuntimeException e) {
-            System.out.println(e.getCause());
-            return ResponseEntity.status(666).body(e.getCause().toString());
+//            System.out.println(e.getCause());
+            return ResponseEntity.status(666).body(e.getMessage());
         }
     }
 
@@ -79,8 +80,8 @@ public class AnimalsController {
             var createdThing = _createThing(type);
             return ResponseEntity.ok("Created! new thingID:" + String.valueOf(createdThing.getNumber()) + "\n");
         } catch (RuntimeException e) {
-            System.out.println(e.getCause());
-            return ResponseEntity.status(666).body(e.getCause().toString());
+//            System.out.println(e.getCause());
+            return ResponseEntity.status(666).body(e.getMessage());
         }
     }
 
@@ -111,8 +112,8 @@ public class AnimalsController {
                 return ResponseEntity.status(666).body("error: no enclosure or no space");
             }
         } catch (RuntimeException e) {
-            System.out.println(e.getCause());
-            return ResponseEntity.status(666).body(e.getCause().toString());
+//            System.out.println(e.getCause());
+            return ResponseEntity.status(666).body(e.getMessage());
         }
     }
 
@@ -156,7 +157,7 @@ public class AnimalsController {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = List.class),
-                                    examples = @ExampleObject(value = "[\"Олень Бэмби\", \"Зебра Марти\"]")
+                                    examples = @ExampleObject(value = "[\"Zibra Марти\"]")
                             )
                     )
             }
@@ -176,7 +177,7 @@ public class AnimalsController {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = List.class),
-                                    examples = @ExampleObject(value = "[\"Лев Симба\", \"Тигр Шерхан\"]")
+                                    examples = @ExampleObject(value = "[\"Tiger Шерхан\"]")
                             )
                     )
             }
@@ -197,8 +198,7 @@ public class AnimalsController {
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = List.class),
                                     examples = @ExampleObject(
-                                            value = "[\"Тигр Шерхан (Здоровье: 90, Любимая еда: мясо)\", " +
-                                                    "\"Олень Бэмби (Здоровье: 85, Любимая еда: трава)\"]"
+                                            value = "\"Tiger Matras(Health: 20, Favorite food: meat, Sex: male, Food value: 20, Status: healthy)\"]"
                                     )
                             )
                     )
@@ -214,35 +214,47 @@ public class AnimalsController {
                               String sex, String favoriteFood) {
         if (type.equals("monkey")) {
             Animal animal = new Monkey(health, nickname, sex, favoriteFood);
-            if (zoo.addAnimal(animal)) {
+            var res = zoo.addAnimal(animal);
+            if (res == 0) {
                 return animal;
-            } else {
+            } else if (res == -2) {
                 throw new RuntimeException("too low health");
+            } else {
+                throw new RuntimeException("animal with this name already exists");
             }
 
         }
         if (type.equals("rabbit")) {
             Animal animal = new Rabbit(health, nickname, sex, favoriteFood);
-            if (zoo.addAnimal(animal)) {
+            var res = zoo.addAnimal(animal);
+            if (res == 0) {
                 return animal;
-            } else {
+            } else if (res == -2) {
                 throw new RuntimeException("too low health");
+            } else {
+                throw new RuntimeException("animal with this name already exists");
             }
         }
         if (type.equals("tiger")) {
             Animal animal = new Tiger(health, nickname, sex, favoriteFood);
-            if (zoo.addAnimal(animal)) {
+            var res = zoo.addAnimal(animal);
+            if (res == 0) {
                 return animal;
-            } else {
+            } else if (res == -2) {
                 throw new RuntimeException("too low health");
+            } else {
+                throw new RuntimeException("animal with this name already exists");
             }
         }
         if (type.equals("wolf")) {
             Animal animal = new Wolf(health, nickname, sex, favoriteFood);
-            if (zoo.addAnimal(animal)) {
+            var res = zoo.addAnimal(animal);
+            if (res == 0) {
                 return animal;
-            } else {
+            } else if (res == -2) {
                 throw new RuntimeException("too low health");
+            } else {
+                throw new RuntimeException("animal with this name already exists");
             }
         }
         throw new RuntimeException("unknown animal type");

@@ -87,4 +87,14 @@ public class Animal implements IAlive {
         this.health++;
         return this.health;
     }
+
+    @Override
+    public String toString() {
+        return name + " " + nickname + "(" +
+                "Health: " + String.valueOf(health) + ", " +
+                "Favorite food: " + favoriteFood + ", " +
+                "Sex: " + sex + ", " +
+                "Food value: " + String.valueOf(food) + ", " +
+                "Status: " + status + ")";
+    }
 }

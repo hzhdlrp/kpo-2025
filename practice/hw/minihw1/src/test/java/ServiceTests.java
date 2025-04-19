@@ -9,7 +9,9 @@ import org.example.infrastructure.services.AliveService;
 import org.example.infrastructure.services.ThingService;
 import org.example.domain.things.Computer;
 import org.example.domain.things.Table;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ServiceTests {
     @Autowired
     AliveService aliveService;
