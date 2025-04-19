@@ -1,3 +1,4 @@
+import org.example.Main;
 import org.example.domain.animals.herbos.Monkey;
 import org.example.domain.animals.herbos.Rabbit;
 import org.example.domain.animals.predators.Tiger;
@@ -11,7 +12,12 @@ import org.example.application.zoo.Zoo;
 import org.example.domain.things.Computer;
 import org.example.domain.things.Table;
 import org.example.application.veterinary.VetClinic;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@SpringBootTest(classes = Main.class)
+@ExtendWith(SpringExtension.class)
 public class ZooTests {
     @Autowired
     private VetClinic vetClinic;

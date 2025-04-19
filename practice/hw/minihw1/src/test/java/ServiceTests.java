@@ -1,17 +1,22 @@
+import org.example.Main;
 import org.example.domain.animals.herbos.Monkey;
 import org.example.domain.animals.herbos.Rabbit;
 import org.example.domain.animals.predators.Tiger;
 import org.example.domain.animals.predators.Wolf;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.example.infrastructure.services.AliveService;
 import org.example.infrastructure.services.ThingService;
 import org.example.domain.things.Computer;
 import org.example.domain.things.Table;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Component;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@Component
+@SpringBootTest(classes = Main.class)
+@ExtendWith(SpringExtension.class)
 public class ServiceTests {
     @Autowired
     AliveService aliveService;
