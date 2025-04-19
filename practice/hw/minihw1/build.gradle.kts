@@ -32,13 +32,18 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
 tasks.test {
     useJUnitPlatform()
     finalizedBy(tasks.jacocoTestReport)
 }
 
+
 tasks.jacocoTestReport {
-    dependsOn(tasks.test)
+    dependsOn(tasks.test) // отчет должен генерироваться после тестов
 
     reports {
         xml.required.set(true)

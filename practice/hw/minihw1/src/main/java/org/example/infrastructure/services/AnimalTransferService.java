@@ -8,6 +8,7 @@ import org.example.infrastructure.events.AnimalMovedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +35,7 @@ public class AnimalTransferService {
                         .capacity(capacity)
                         .type(enclosureType)
                         .id(id)
+                        .nicknames(new ArrayList<>())
                 .build());
         return new ResultType<>(0,String.valueOf(id));
     }

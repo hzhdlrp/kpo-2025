@@ -17,25 +17,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.infrastructure.services.*;
+import org.example.presentation.requests.AnimalRequest;
+import org.example.presentation.requests.EnclosureRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-class AnimalRequest {
-    public String type;
-    public int health;
-    public String nickname;
-    public String sex;
-    public String favoriteFood;
-}
-
-class EnclosureRequest {
-    public int capacity;
-    public String type;
-}
 
 
 @RestController
@@ -62,7 +51,7 @@ public class AnimalsController {
     @PostMapping("/animal")
     @Operation(summary = "Создать животное")
     public ResponseEntity<String> createAnimal(@RequestBody @Parameter(description = "Данные животного")
-                                                   AnimalRequest request) {
+                                               AnimalRequest request) {
         try {
             Animal createdAnimal = _createAnimal(request.type, request.health, request.nickname, request.sex, request.favoriteFood);
 
