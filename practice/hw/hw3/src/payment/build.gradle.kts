@@ -51,6 +51,10 @@ dependencies {
 
     implementation("com.h2database:h2")
 
+    implementation("org.springframework.kafka:spring-kafka")
+
+    implementation("org.apache.kafka:kafka-clients")
+    testImplementation("org.springframework.kafka:spring-kafka-test")
 }
 
 tasks.test {
