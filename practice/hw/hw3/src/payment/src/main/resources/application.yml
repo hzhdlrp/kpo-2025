@@ -1,0 +1,13 @@
+spring:
+  kafka:
+    bootstrap-servers: kafka:9092
+  datasource:
+    url: jdbc:postgresql://payments-db:5432/payments_db
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 8081

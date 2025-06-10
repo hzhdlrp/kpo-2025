@@ -1,0 +1,16 @@
+spring:
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      group-id: order-service-group
+      auto-offset-reset: earliest
+  datasource:
+    url: jdbc:postgresql://order-db:5432/order_db
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 8080

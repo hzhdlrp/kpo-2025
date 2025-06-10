@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.example.orders.Order;
 import org.example.orders.OrderStatus;
-import org.example.outbox.OutboxEvent;
+import org.example.box.OutboxEvent;
 import org.example.repositories.OrderRepository;
 import org.example.repositories.OutboxEventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
