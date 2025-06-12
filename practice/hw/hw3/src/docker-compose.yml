@@ -98,9 +98,9 @@ services:
     environment:
       URLS: >
         [
-          { name: 'Order', url: 'http://localhost:8080/api/' },
-          { name: 'Payment', url: 'http://localhost:8081/api/' },
-          { name: 'Gateway', url: 'http://localhost:8084/api/' }
+          { name: 'Order', url: 'http://localhost:8080/api' },
+          { name: 'Payment', url: 'http://localhost:8081/api' },
+          { name: 'Gateway', url: 'http://localhost:8084/api' }
         ]
 
 volumes:
