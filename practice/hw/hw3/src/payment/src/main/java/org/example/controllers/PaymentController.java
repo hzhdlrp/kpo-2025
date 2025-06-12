@@ -1,5 +1,7 @@
 package org.example.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.services.PaymentService;
 import org.example.accounts.Account;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +14,13 @@ import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/api/payments")
+@Tag(name = "Payment", description = "Обращение к сервису платежей")
 public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
     @PostMapping("/accounts")
+    @Operation(summary = "создать аккаунт")
     public ResponseEntity<?> createAccount(@RequestParam Long userId) {
         try {
             return ResponseEntity.ok(paymentService.createAccount(userId));
@@ -26,6 +30,7 @@ public class PaymentController {
     }
 
     @PostMapping("/deposit")
+    @Operation(summary = "изменить сумму на счету")
     public ResponseEntity<?> deposit(
             @RequestParam Long userId,
             @RequestParam BigDecimal amount) {
@@ -37,6 +42,7 @@ public class PaymentController {
     }
 
     @GetMapping("/balance")
+    @Operation(summary = "узнать баланс")
     public ResponseEntity<?> getBalance(@RequestParam Long userId) {
         try {
             return ResponseEntity.ok(paymentService.getBalance(userId));

@@ -2,8 +2,11 @@ spring:
   kafka:
     bootstrap-servers: kafka:9092
     consumer:
-      group-id: order-service-group
+      group-id: orders-service-group
       auto-offset-reset: earliest
+    listener:
+      payment-result:
+        group-id: orders-service-payments-group
   datasource:
     url: jdbc:postgresql://order-db:5432/order_db
     username: postgres
@@ -11,6 +14,13 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  application:
+    name: order
 
 server:
   port: 8080
+  use-forward-headers: true
+  forward-headers-strategy: framework
+springdoc:
+  api-docs:
+    path: /api

@@ -70,6 +70,13 @@ services:
     networks:
       - shop-network
 
+  gateway:
+    build:
+      context: ./payment
+      dockerfile: Dockerfile
+    ports:
+      - "8084:8080"
+
   payments-db:
     image: postgres:13
     environment:
@@ -91,9 +98,9 @@ services:
     environment:
       URLS: >
         [
-          { name: 'Order', url: 'http://localhost:8080/api/orders' },
-          { name: 'Payment', url: 'http://localhost:' },
-          { name: 'Gateway', url: 'http://localhost:' }
+          { name: 'Order', url: 'http://localhost:8080/api/' },
+          { name: 'Payment', url: 'http://localhost:8081/api/' },
+          { name: 'Gateway', url: 'http://localhost:8084/api/' }
         ]
 
 volumes:
