@@ -3,6 +3,7 @@ package org.example.orders;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
@@ -21,8 +22,10 @@ public class Order {
     @Column(nullable = false)
     private BigDecimal amount;
 
+    @Setter
     private String description;
 
     @Enumerated(EnumType.STRING)
+    @Setter
     private OrderStatus status;
 }
