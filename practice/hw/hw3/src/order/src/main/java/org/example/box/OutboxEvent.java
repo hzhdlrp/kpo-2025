@@ -33,5 +33,5 @@ public class OutboxEvent {
 
     @Setter
     @Column(nullable = false, columnDefinition = "boolean default false")
-    private boolean processed;
+    private boolean processed = false;
 }

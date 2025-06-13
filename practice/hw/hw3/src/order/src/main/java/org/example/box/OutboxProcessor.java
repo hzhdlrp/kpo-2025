@@ -27,7 +27,7 @@ public class OutboxProcessor {
     @Transactional
     public void processOutboxEvents() {
         log.info("Scheduler started");
-        outboxEventRepository.findByProcessedFalse().forEach(event -> {
+        outboxEventRepository.findAllByProcessedFalseOrderByCreatedAtAsc().forEach(event -> {
             try {
                 String messageKey = event.getAggregateType() + "_" + event.getAggregateId();
                 JsonNode payload = objectMapper.readTree(event.getPayload());
