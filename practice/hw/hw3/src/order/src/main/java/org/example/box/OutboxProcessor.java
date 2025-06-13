@@ -31,7 +31,14 @@ public class OutboxProcessor {
                 String messageKey = event.getAggregateType() + "_" + event.getAggregateId();
                 JsonNode payload = objectMapper.readTree(event.getPayload());
                 ((ObjectNode) payload).put("eventId", event.getId().toString());
-                kafkaTemplate.send("orders", messageKey, payload.toString());
+                var future = kafkaTemplate.send("orders", messageKey, payload.toString());
+                future.whenComplete((result, ex) -> {
+                    if (ex == null) {
+                        log.info("Sent message: {}", result.getProducerRecord().value());
+                    } else {
+                        log.error("Failed to send message", ex);
+                    }
+                });
                 event.setProcessed(true);
                 outboxEventRepository.save(event);
             } catch (Exception e) {

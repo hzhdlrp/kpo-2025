@@ -7,6 +7,7 @@ import lombok.Getter;
 import org.example.orders.Order;
 import org.example.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,14 +35,22 @@ public class OrderController {
 
     @GetMapping("/user/{userId}")
     @Operation(summary = "узнать заказы пользователя")
-    public ResponseEntity<List<Order>> getUserOrders(@PathVariable Long userId) {
-        return ResponseEntity.ok(orderService.getUserOrders(userId));
+    public ResponseEntity<?> getUserOrders(@PathVariable Long userId) {
+        try {
+            return ResponseEntity.ok(orderService.getUserOrders(userId));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("order service error: " + e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "получить заказ по айди")
-    public ResponseEntity<Order> getOrder(@PathVariable Long id) {
-        return ResponseEntity.ok(orderService.getOrder(id));
+    public ResponseEntity<?> getOrder(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(orderService.getOrder(id));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("order service error: " + e.getMessage());
+        }
     }
 }
 

@@ -5,8 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.repositories.OutboxEventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.concurrent.ListenableFuture;
+
+import java.util.concurrent.CompletableFuture;
 
 @Component
 @Slf4j
@@ -24,7 +28,14 @@ public class OutboxProcessor {
                 String topic = "payments-results";
                 String messageKey = event.getAggregateType() + "_" + event.getAggregateId();
 
-                kafkaTemplate.send(topic, messageKey, event.getPayload());
+                CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send(topic, messageKey, event.getPayload());
+                future.whenComplete((result, ex) -> {
+                    if (ex == null) {
+                        log.info("Sent message: {}", result.getProducerRecord().value());
+                    } else {
+                        log.error("Failed to send message", ex);
+                    }
+                });
                 event.setProcessed(true);
                 outboxEventRepository.save(event);
             } catch (Exception e) {
