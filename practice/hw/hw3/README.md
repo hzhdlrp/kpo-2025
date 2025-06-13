@@ -2,8 +2,9 @@
 
 Для запуска всех сервисов необходимо из директории src выполнить
 ```
-    docker-compose build
-    docker-compose up
+    docker-compose -f docker-compose.yml build
+    docker-compose -f docker-compose-kafka.yml up
+    docker-compose -f docker-compose.yml up
 ```
 # Структура и API
 
@@ -17,10 +18,4 @@ Gateway отправляет синхронные rest-запросы серви
 Чтобы протестировать функционал каждого сервиса, можно подключиться к единому Swagger-у с выбором сервиса. Он запускается на порте 8083
 (http://localhost:8083/)
 
-Интерфейс Kafka можно открыть по адресу http://localhost:8082/
-
-
-![](images/im1.png)
-![](images/im2.png)
-![](images/im3.png)
-![](images/im4.png)
+Kafka-UI можно открыть по адресу http://localhost:8082/
