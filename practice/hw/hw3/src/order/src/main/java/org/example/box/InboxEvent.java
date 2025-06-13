@@ -29,5 +29,6 @@ public class InboxEvent {
     private LocalDateTime receivedAt;
 
     @Setter
+    @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean processed = false;
 }

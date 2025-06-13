@@ -1,27 +1,20 @@
 spring:
   kafka:
-    bootstrap-servers: kafka:9092
+    bootstrap-servers: localhost:9092
+    properties:
+      security.protocol: PLAINTEXT
+    #      socket.connection.setup.timeout.ms: 30000
+    admin:
+      auto-create-topics: true
     consumer:
       group-id: orders-service-payments-group
-      auto-offset-reset: earliest
-      enable-auto-commit: false
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        session.timeout.ms: 30000
-        heartbeat.interval.ms: 10000
-        max.poll.interval.ms: 300000
-        request.timeout.ms: 40000
-        isolation.level: read_committed
+        spring.json.trusted.packages: "org.example,java.util,java.lang"
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      retries: 3
-      acks: all
-    listener:
-      type: single
-      ack-mode: manual
-      concurrency: 3
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
   datasource:
     url: jdbc:postgresql://order-db:5432/order_db
@@ -38,3 +31,7 @@ server:
 springdoc:
   api-docs:
     path: /api
+logging:
+  level:
+    org.example.box: DEBUG
+    org.springframework.scheduling: DEBUG

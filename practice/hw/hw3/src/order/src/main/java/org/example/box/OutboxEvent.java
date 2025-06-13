@@ -32,5 +32,6 @@ public class OutboxEvent {
     private LocalDateTime createdAt;
 
     @Setter
+    @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean processed;
 }

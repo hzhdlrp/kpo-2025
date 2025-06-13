@@ -26,6 +26,7 @@ public class OutboxProcessor {
     @Scheduled(fixedDelay = 5000)
     @Transactional
     public void processOutboxEvents() {
+        log.info("Scheduler started");
         outboxEventRepository.findByProcessedFalse().forEach(event -> {
             try {
                 String messageKey = event.getAggregateType() + "_" + event.getAggregateId();
