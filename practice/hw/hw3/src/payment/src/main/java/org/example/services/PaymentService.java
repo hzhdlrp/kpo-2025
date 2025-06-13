@@ -38,7 +38,7 @@ public class PaymentService {
     }
 
     public Account deposit(Long userId, BigDecimal amount) {
-        Account account = accountRepository.findByUserId(userId)
+        Account account = accountRepository.findByUserIdWithLock(userId)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
 
         if (account.getBalance().add(amount).compareTo(BigDecimal.ZERO) < 0) {
