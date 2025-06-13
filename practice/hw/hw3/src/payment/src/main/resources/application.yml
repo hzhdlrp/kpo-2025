@@ -1,6 +1,27 @@
 spring:
   kafka:
     bootstrap-servers: kafka:9092
+    consumer:
+      group-id: orders-service-payments-group
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        session.timeout.ms: 30000
+        heartbeat.interval.ms: 10000
+        max.poll.interval.ms: 300000
+        request.timeout.ms: 40000
+        isolation.level: read_committed
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      retries: 3
+      acks: all
+    listener:
+      type: single
+      ack-mode: manual
+      concurrency: 3
   datasource:
     url: jdbc:postgresql://payments-db:5432/payments_db
     username: postgres
