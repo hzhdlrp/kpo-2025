@@ -16,7 +16,7 @@ public class AccountsController {
 
     @Autowired
     private RestTemplate restTemplate;
-    private final String paymentServiceUrl = "http://payment-service:8081/api/payments";
+    private final String paymentServiceUrl = "http://payment-service:8080/api/payments";
 
     @PostMapping
     @Operation(summary = "создать аккаунт")
