@@ -27,12 +27,15 @@ public class OutboxProcessor {
     @Transactional
     public void processOutboxEvents() {
         log.info("Scheduler started");
-        outboxEventRepository.findAllByProcessedFalseOrderByCreatedAtAsc().forEach(event -> {
+        outboxEventRepository.findUnprocessedEvents().forEach(event -> {
             try {
+                log.info("looking for ProcessedFalseEvents");
                 String messageKey = event.getAggregateType() + "_" + event.getAggregateId();
                 JsonNode payload = objectMapper.readTree(event.getPayload());
                 ((ObjectNode) payload).put("eventId", event.getId().toString());
+                log.info("sending with kafkaTemplate");
                 var future = kafkaTemplate.send("orders", messageKey, payload.toString());
+                log.info("waiting for future");
                 future.whenComplete((result, ex) -> {
                     if (ex == null) {
                         log.info("Sent message: {}", result.getProducerRecord().value());

@@ -1,9 +1,7 @@
 package org.example.box;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -11,6 +9,8 @@ import java.time.LocalDateTime;
 @Table(name = "outbox_events")
 @Builder
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class OutboxEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

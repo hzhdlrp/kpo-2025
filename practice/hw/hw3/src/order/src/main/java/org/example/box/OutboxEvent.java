@@ -1,16 +1,17 @@
 package org.example.box;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "outbox_events")
 @Getter
+@Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class OutboxEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +32,6 @@ public class OutboxEvent {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Setter
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(name = "processed", nullable = false)
     private boolean processed = false;
 }
