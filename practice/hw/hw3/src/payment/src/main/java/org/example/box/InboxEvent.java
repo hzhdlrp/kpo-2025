@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "inbox_events")
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,8 +29,7 @@ public class InboxEvent {
     @Column(name = "received_at", nullable = false)
     private LocalDateTime receivedAt;
 
-    @Setter
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(name = "processed", nullable = false, columnDefinition = "boolean default false")
     private boolean processed = false;
 }
 

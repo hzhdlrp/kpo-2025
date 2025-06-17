@@ -77,7 +77,7 @@ public class PaymentService {
 
             createPaymentSuccessEvent(orderId, userId);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to process payment", e);
+            throw new RuntimeException("Failed to process payment: " + e.getMessage());
         }
     }
 

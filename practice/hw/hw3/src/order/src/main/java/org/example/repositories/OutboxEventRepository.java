@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface OutboxEventRepository extends JpaRepository<OutboxEvent, Long> {
-    @Transactional(readOnly = true)
     @Query("SELECT e FROM OutboxEvent e WHERE e.processed = false")
     List<OutboxEvent> findUnprocessedEvents();
 }

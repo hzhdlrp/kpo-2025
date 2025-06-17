@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @Slf4j
 public class InboxProcessor {
@@ -16,17 +18,23 @@ public class InboxProcessor {
     @Autowired
     private PaymentService paymentService;
 
-    @Scheduled(fixedDelay = 5000)
     @Transactional
+    @Scheduled(fixedDelay = 5000)
     public void processInboxEvents() {
-        inboxEventRepository.findByProcessedFalse().forEach(event -> {
-            try {
-                paymentService.processPaymentEvent(event.getPayload());
-                event.setProcessed(true);
-                inboxEventRepository.save(event);
-            } catch (Exception e) {
-                log.error("Failed to process outbox event: {}", event.getId(), e);
-            }
-        });
+        List<InboxEvent> events = inboxEventRepository.findByProcessedFalse();
+        events.forEach(event -> processSingleEvent(event));
+    }
+
+    @Transactional
+    public void processSingleEvent(InboxEvent event) {
+        try {
+            paymentService.processPaymentEvent(event.getPayload());
+            event.setProcessed(true);
+            log.info("event_str{}", event);
+            inboxEventRepository.save(event);
+            log.info("Event processed: {}", event.getId());
+        } catch (Exception e) {
+            log.error("Failed to process event: {}", event.getId(), e);
+        }
     }
 }

@@ -7,9 +7,10 @@ spring:
     admin:
       auto-create-topics: true
     consumer:
-      group-id: orders-service-payments-group
+      group-id: payments-service-group
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: earliest
       properties:
         spring.json.trusted.packages: "org.example,java.util,java.lang"
     producer:
@@ -22,6 +23,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
   application:
     name: order
 

@@ -2,7 +2,8 @@ package org.example.box;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.example.repositories.InboxEventRepository;
 import org.example.services.OrderService;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 @Component
+@Slf4j
 public class PaymentResultListener {
     @Autowired
     private InboxEventRepository inboxEventRepository;
@@ -30,20 +32,21 @@ public class PaymentResultListener {
             String payload = record.value();
 
             JsonNode json = objectMapper.readTree(payload);
-            String eventId = json.get("orderId").asText() + "_" + json.get("status").asText();
-
-            if (inboxEventRepository.existsByMessageId(eventId)) {
+            log.info("got message with key {}", messageKey);
+            if (inboxEventRepository.existsByMessageId(messageKey)) {
                 ack.acknowledge();
+                log.info("message with id {} already exists", messageKey);
                 return;
             }
 
             InboxEvent event = InboxEvent.builder()
-                    .messageId(eventId)
+                    .messageId(messageKey)
                     .eventType(json.get("status").asText().equals("SUCCESS") ?
                             "PaymentSucceeded" : "PaymentFailed")
                     .payload(payload)
                     .receivedAt(LocalDateTime.now())
                     .build();
+            log.info("saving event with message key {}", messageKey);
             inboxEventRepository.save(event);
             ack.acknowledge();
         } catch (Exception e) {

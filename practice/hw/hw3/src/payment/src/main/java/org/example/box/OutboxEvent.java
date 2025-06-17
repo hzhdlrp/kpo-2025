@@ -7,8 +7,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "outbox_events")
-@Builder
 @Getter
+@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class OutboxEvent {
@@ -25,13 +26,12 @@ public class OutboxEvent {
     @Column(name = "event_type", nullable = false)
     private String eventType;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(columnDefinition = "TEXT")
     private String payload;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Setter
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(name = "processed", nullable = false)
     private boolean processed = false;
 }

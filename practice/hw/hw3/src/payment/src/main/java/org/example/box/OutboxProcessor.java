@@ -8,7 +8,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.util.concurrent.ListenableFuture;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -23,7 +22,7 @@ public class OutboxProcessor {
     @Scheduled(fixedDelay = 5000)
     @Transactional
     public void processOutboxEvents() {
-        outboxEventRepository.findByProcessedFalse().forEach(event -> {
+        outboxEventRepository.findUnprocessedEvents().forEach(event -> {
             try {
                 String topic = "payments-results";
                 String messageKey = event.getAggregateType() + "_" + event.getAggregateId();
